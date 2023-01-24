@@ -6,11 +6,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 
 import javax.swing.JPanel;
 
 import main.Main;
-import main.handlers.KeyHandler;
+import main.handlers.SettingsKeyHandler;
 import main.screens.UI;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -18,11 +19,22 @@ public class GamePanel extends JPanel implements Runnable {
 	private static final long serialVersionUID = -5621533987836333041L;
 
 	// SCREEN SETTINGS
+	public Dimension screenDimensions = Toolkit.getDefaultToolkit().getScreenSize();
+
+	public int realScreenWidth = (int) screenDimensions.getWidth() + 1;
+	public int realScreenHeight = (int) screenDimensions.getHeight() + 1;
+
 	public int screenWidth, screenHeight;
+
+	public final int screenTileRow = 32;
+	public final int screenTileCol = 18;
+	public int tileWidth, tileHeight;
+
+	public boolean fullScreen = false;
 
 	int TPS = 60; // TICKS PER SECOND
 
-	public KeyHandler keyH = new KeyHandler(); // KEY CONTROL
+	public SettingsKeyHandler settingsKeyH = new SettingsKeyHandler(); // KEY CONTROL
 
 	public Thread gameThread; // CONTROLS TIME
 
@@ -33,13 +45,16 @@ public class GamePanel extends JPanel implements Runnable {
 	// SCREENS
 	public UI ui = new UI(this);
 
+	// OBJECT SIZES
+
 	public GamePanel() {
 		setFullScreen();
-		this.setPreferredSize(new Dimension(screenWidth, screenHeight)); // SETS SCREEN SIZE
+		this.setMinimumSize(new Dimension(160, 90)); // SETS MINIMUM SCREEN SIZE
+		this.setPreferredSize(new Dimension(1600, 900)); // SETS SCREEN SIZE
 		this.setBackground(Color.black);
 		this.setDoubleBuffered(true); // BETTER PERFORMANCE, LOWER FPS, TURN OFF IF YOU WANT TO FLEX FPS
-		this.addKeyListener(keyH); // LISTENS FOR KEY INPUT
 		this.setFocusable(true); // FOCUSES ON KEY INPUT
+		this.addKeyListener(settingsKeyH); // LISTENS FOR KEY INPUT
 	}
 
 	public void setupGame() {
@@ -90,6 +105,28 @@ public class GamePanel extends JPanel implements Runnable {
 
 	@Override
 	public void paintComponent(Graphics g) { // RENDERS
+		screenWidth = Main.window.getWidth();
+		screenHeight = Main.window.getHeight();
+		if (screenWidth == 0 || screenHeight == 0) {
+			screenWidth = realScreenWidth;
+			screenHeight = realScreenHeight;
+		}
+
+		if (settingsKeyH.fullScreen != fullScreen) {
+			if (settingsKeyH.fullScreen) {
+				setFullScreen();
+			} else {
+				exitFullScreen();
+			}
+		}
+
+		if (settingsKeyH.quit) {
+			System.exit(0);
+		}
+
+		tileWidth = screenWidth / screenTileRow;
+		tileHeight = screenHeight / screenTileCol;
+
 		super.paintComponent(g);
 
 		Graphics2D g2 = (Graphics2D) g;
@@ -107,8 +144,28 @@ public class GamePanel extends JPanel implements Runnable {
 
 		gDevice.setFullScreenWindow(Main.window);
 
+		Main.window.dispose();
+
+		Main.window.setResizable(false);
+		Main.window.setUndecorated(true);
+
+		Main.window.setVisible(true);
+
 		screenWidth = Main.window.getWidth();
 		screenHeight = Main.window.getHeight();
+
+		fullScreen = true;
+	}
+
+	public void exitFullScreen() {
+		Main.window.dispose();
+
+		Main.window.setResizable(true);
+		Main.window.setUndecorated(false);
+
+		Main.window.setVisible(true);
+
+		fullScreen = false;
 	}
 
 }

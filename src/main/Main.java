@@ -12,8 +12,8 @@ public class Main {
 		// MAKES A WINDOW
 		window = new JFrame(); // THE WINDOW
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // HOW TO CLOSE
-		window.setResizable(false); // RESIZABLE?
-		window.setUndecorated(true);
+		window.setResizable(true); // RESIZABLE?
+		window.setUndecorated(false);
 		window.setTitle("Fruit Ninja"); // WINDOW TITLE
 
 		GamePanel gamePanel = new GamePanel(); // THE PANEL

@@ -6,15 +6,15 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import main.handlers.KeyHandler;
+import main.handlers.SettingsKeyHandler;
 import main.window.GamePanel;
 
 public class Player extends Entity {
 
 	GamePanel gp;
-	KeyHandler keyH;
+	SettingsKeyHandler keyH;
 
-	public Player(GamePanel gp, KeyHandler keyH) {
+	public Player(GamePanel gp, SettingsKeyHandler keyH) {
 		this.gp = gp;
 		this.keyH = keyH;
 
