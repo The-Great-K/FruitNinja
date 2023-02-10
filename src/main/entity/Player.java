@@ -1,6 +1,8 @@
 package main.entity;
 
 import java.awt.Graphics2D;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -14,9 +16,10 @@ public class Player extends Entity {
 	GamePanel gp;
 	SettingsKeyHandler keyH;
 
-	public Player(GamePanel gp, SettingsKeyHandler keyH) {
+	EntityEnum type;
+
+	public Player(GamePanel gp) {
 		this.gp = gp;
-		this.keyH = keyH;
 
 		setDefaultValues();
 		getPlayerImage();
@@ -25,24 +28,34 @@ public class Player extends Entity {
 	public void setDefaultValues() {
 		x = -500;
 		y = -500;
+
+		this.type = EntityEnum.PLAYER;
 	}
 
 	public void getPlayerImage() {
 		try {
-			sword = ImageIO.read(getClass().getResourceAsStream("/textures/player/player_sword.png"));
+			image = ImageIO.read(getClass().getResourceAsStream("/textures/player/player.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void update() {
+		Point mouse = MouseInfo.getPointerInfo().getLocation();
 
+		this.x = mouse.x;
+		this.y = mouse.y;
 	}
 
 	public void render(Graphics2D g2) {
-		BufferedImage image = sword;
+		BufferedImage image = this.image;
 
-		g2.drawImage(image, x, y, 50, 50, null);
+		g2.drawImage(image, x, y, gp.tileWidth / 2, gp.tileHeight / 2, null);
+	}
+
+	public void write() {
+		System.out.println("x: " + this.x);
+		System.out.println("y: " + this.y);
 	}
 
 }

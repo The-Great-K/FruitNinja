@@ -6,6 +6,10 @@ public class Entity {
 
 	public int x, y;
 
-	public BufferedImage sword;
+	public BufferedImage image;
 
+}
+
+enum EntityEnum {
+	PLAYER, FRUIT, BOMB, BUTTON
 }

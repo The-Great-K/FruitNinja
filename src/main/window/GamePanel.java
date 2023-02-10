@@ -11,6 +11,7 @@ import java.awt.Toolkit;
 import javax.swing.JPanel;
 
 import main.Main;
+import main.entity.Player;
 import main.handlers.SettingsKeyHandler;
 import main.screens.UI;
 
@@ -45,7 +46,8 @@ public class GamePanel extends JPanel implements Runnable {
 	// SCREENS
 	public UI ui = new UI(this);
 
-	// OBJECT SIZES
+	// OBJECTS
+	public Player player = new Player(this);
 
 	public GamePanel() {
 		setFullScreen();
@@ -93,6 +95,7 @@ public class GamePanel extends JPanel implements Runnable {
 				if (System.currentTimeMillis() - timer > 1000) {
 					timer += 1000;
 					System.out.println("FPS: " + fps);
+					write();
 					fps = 0;
 				}
 			}
@@ -101,6 +104,7 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 
 	public void update() { // UPDATES
+		player.update();
 	}
 
 	@Override
@@ -135,7 +139,13 @@ public class GamePanel extends JPanel implements Runnable {
 			ui.render(g2);
 		}
 
+		player.render(g2);
+
 		g2.dispose(); // DELETES OLD IMAGE
+	}
+
+	public void write() {
+		player.write();
 	}
 
 	public void setFullScreen() {
