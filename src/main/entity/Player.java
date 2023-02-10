@@ -49,6 +49,11 @@ public class Player extends Entity {
 
 	public void render(Graphics2D g2) {
 		BufferedImage image = this.image;
+		int imageWidth = image.getWidth();
+		int imageHeight = image.getHeight();
+
+		int x = this.x - imageWidth / 2;
+		int y = this.y - imageHeight / 2;
 
 		g2.drawImage(image, x, y, gp.tileWidth / 2, gp.tileHeight / 2, null);
 	}
