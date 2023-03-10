@@ -3,7 +3,17 @@ package main.handlers;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import main.window.GamePanel;
+
 public class SettingsKeyHandler implements KeyListener {
+
+	public GamePanel gp;
+
+	public SettingsKeyHandler(GamePanel gp) {
+		this.gp = gp;
+
+		gp.addKeyListener(this);
+	}
 
 	public boolean quit = false;
 	public boolean fullScreen = false;

@@ -8,10 +8,12 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import main.Main;
 import main.entity.Player;
+import main.handlers.MouseHandler;
 import main.handlers.SettingsKeyHandler;
 import main.screens.UI;
 
@@ -33,15 +35,18 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public boolean fullScreen = false;
 
-	int TPS = 60; // TICKS PER SECOND
+	public int TPS = 60; // TICKS PER SECOND
 
-	public SettingsKeyHandler settingsKeyH = new SettingsKeyHandler(); // KEY CONTROL
+	public SettingsKeyHandler settingsKeyH = new SettingsKeyHandler(this); // KEY CONTROL
+	public MouseHandler mouseH = new MouseHandler(this);
 
 	public Thread gameThread; // CONTROLS TIME
 
 	// GAME STATES
 	public int gameState;
-	public final int titleState = 0;
+	public final int TITLE_STATE = 0;
+	public final int PLAY_STATE = 1;
+	public final int SETTINGS_STATE = 2;
 
 	// SCREENS
 	public UI ui = new UI(this);
@@ -52,15 +57,14 @@ public class GamePanel extends JPanel implements Runnable {
 	public GamePanel() {
 		setFullScreen();
 		this.setMinimumSize(new Dimension(160, 90)); // SETS MINIMUM SCREEN SIZE
-		this.setPreferredSize(new Dimension(1600, 900)); // SETS SCREEN SIZE
+		this.setPreferredSize(new Dimension(800, 450)); // SETS SCREEN SIZE
 		this.setBackground(Color.black);
 		this.setDoubleBuffered(true); // BETTER PERFORMANCE, LOWER FPS, TURN OFF IF YOU WANT TO FLEX FPS
 		this.setFocusable(true); // FOCUSES ON KEY INPUT
-		this.addKeyListener(settingsKeyH); // LISTENS FOR KEY INPUT
 	}
 
 	public void setupGame() {
-		gameState = titleState;
+		gameState = TITLE_STATE;
 	}
 
 	public void startGameThread() {
@@ -95,7 +99,7 @@ public class GamePanel extends JPanel implements Runnable {
 				if (System.currentTimeMillis() - timer > 1000) {
 					timer += 1000;
 					System.out.println("FPS: " + fps);
-					write();
+					write(); // CONSOLE
 					fps = 0;
 				}
 			}
@@ -105,6 +109,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public void update() { // UPDATES
 		player.update();
+		ui.update();
 	}
 
 	@Override
@@ -135,9 +140,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 		Graphics2D g2 = (Graphics2D) g;
 
-		if (gameState == titleState) {
-			ui.render(g2);
-		}
+		ui.render(g2);
 
 		player.render(g2);
 
@@ -146,6 +149,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public void write() {
 		player.write();
+		ui.write();
 	}
 
 	public void setFullScreen() {
@@ -156,9 +160,12 @@ public class GamePanel extends JPanel implements Runnable {
 
 		Main.window.dispose();
 
+		Main.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Main.window.setResizable(false);
 		Main.window.setUndecorated(true);
 
+		Main.window.setSize(realScreenWidth, realScreenHeight);
+		Main.window.setLocation(0, 0);
 		Main.window.setVisible(true);
 
 		screenWidth = Main.window.getWidth();
@@ -170,10 +177,15 @@ public class GamePanel extends JPanel implements Runnable {
 	public void exitFullScreen() {
 		Main.window.dispose();
 
-		Main.window.setResizable(true);
+		Main.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // HOW TO CLOSE
+		Main.window.setResizable(true); // RESIZABLE?
 		Main.window.setUndecorated(false);
+		Main.window.setTitle("Fruit Ninja"); // WINDOW TITLE
 
-		Main.window.setVisible(true);
+		Main.window.pack(); // SETS THE WINDOW SIZE TO THE PANEL SIZE
+
+		Main.window.setLocationRelativeTo(null); // PREFFERED LOCATION TO SHOW UP?
+		Main.window.setVisible(true); // CAN YOU SEE IT?
 
 		fullScreen = false;
 	}

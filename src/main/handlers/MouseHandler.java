@@ -3,23 +3,32 @@ package main.handlers;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import main.window.GamePanel;
+
 public class MouseHandler implements MouseListener {
 
-	public boolean clicked = false;
+	public GamePanel gp;
+
+	public MouseHandler(GamePanel gp) {
+		this.gp = gp;
+
+		gp.addMouseListener(this);
+	}
+
+	public boolean mousePressed = false;
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		clicked = true;
+		mousePressed = true;
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		clicked = false;
+		mousePressed = false;
 	}
 
 	@Override
