@@ -24,17 +24,26 @@ public class GameScreen {
 
 	public void update() {
 		if (timer == 180) {
-			int fruit_x = rand.nextInt(gp.screenWidth - gp.tileWidth);
+			for (int i = 0; i < 3; i++) {
+				int fruit_x = rand.nextInt(gp.screenWidth - gp.tileWidth);
 
-			foodList.add(new Fruit(this.gp, this.gp.player, fruit_x, gp.screenHeight));
+				foodList.add(new Fruit(this.gp, this.gp.player, fruit_x, gp.screenHeight));
+			}
 
 			timer = 0;
+		}
+
+		for (int i = 0; i < foodList.size(); i++) {
+			foodList.get(i).update();
 		}
 
 		timer++;
 	}
 
 	public void render(Graphics2D g2) {
+		for (int i = 0; i < foodList.size(); i++) {
+			foodList.get(i).render(g2);
+		}
 	}
 
 	public void write() {

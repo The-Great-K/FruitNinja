@@ -92,7 +92,7 @@ public class Fruit extends Entity {
 		}
 
 		y -= ySpeed;
-		if (timer == 8) {
+		if (timer == 5) {
 			ySpeed -= 1;
 			timer = 0;
 		}
