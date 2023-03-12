@@ -1,6 +1,8 @@
 package main.screens;
 
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.Random;
 
 import main.entity.food.Fruit;
 import main.window.GamePanel;
@@ -10,23 +12,32 @@ public class GameScreen {
 	public GamePanel gp;
 	public Graphics2D g2;
 
-	private Fruit fruit;
+	private Random rand = new Random();
+
+	private ArrayList<Fruit> foodList = new ArrayList<>();
+
+	private int timer = 0;
 
 	public GameScreen(GamePanel gp) {
 		this.gp = gp;
-		fruit = new Fruit(this.gp, this.gp.player, 0, 450);
 	}
 
 	public void update() {
-		fruit.update();
+		if (timer == 180) {
+			int fruit_x = rand.nextInt(gp.screenWidth - gp.tileWidth);
+
+			foodList.add(new Fruit(this.gp, this.gp.player, fruit_x, gp.screenHeight));
+
+			timer = 0;
+		}
+
+		timer++;
 	}
 
 	public void render(Graphics2D g2) {
-		fruit.render(g2);
 	}
 
 	public void write() {
-		fruit.write();
 	}
 
 }

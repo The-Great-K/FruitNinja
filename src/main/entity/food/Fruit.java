@@ -21,13 +21,14 @@ public class Fruit extends Entity {
 	public EntityEnum type;
 
 	private int timer = 0;
+	private boolean waited = false;
 
 	private Random rand = new Random();
 
 	public int xSpeed, ySpeed;
 
 	public String[] fruitList = new String[6];
-	private int fruitType = rand.nextInt(fruitList.length - 1);
+	private int fruitType = rand.nextInt(fruitList.length);
 
 	public BufferedImage image_cut_top, image_cut_bottom;
 
@@ -59,8 +60,6 @@ public class Fruit extends Entity {
 		this.hitboxOn = true;
 		this.isCut = false;
 
-		this.ySpeed = gp.tileHeight / 3;
-
 		this.type = EntityEnum.FOOD;
 	}
 
@@ -78,6 +77,13 @@ public class Fruit extends Entity {
 	}
 
 	public void update() {
+		if (!waited) {
+			if (timer == 1) {
+				waited = true;
+				ySpeed = (int) (gp.tileHeight / 3);
+			}
+		}
+
 		if (gp.player.hitbox != null) {
 			if (this.isTouching(gp.player) && !this.isCut) {
 				this.isCut = true;
@@ -86,7 +92,7 @@ public class Fruit extends Entity {
 		}
 
 		y -= ySpeed;
-		if (timer == 10) {
+		if (timer == 8) {
 			ySpeed -= 1;
 			timer = 0;
 		}
@@ -96,6 +102,8 @@ public class Fruit extends Entity {
 
 	public void render(Graphics2D g2) {
 		BufferedImage image = this.image;
+		BufferedImage image_cut_top = this.image_cut_top;
+		BufferedImage image_cut_bottom = this.image_cut_bottom;
 
 		this.width = gp.tileWidth * 2;
 		this.height = gp.tileHeight * 2;
@@ -107,12 +115,15 @@ public class Fruit extends Entity {
 			g2.drawRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
 		}
 
-		g2.drawImage(image, this.x, this.y, width, height, null);
+		if (!this.isCut) {
+			g2.drawImage(image, this.x, this.y, width, height, null);
+		} else {
+			g2.drawImage(image_cut_top, this.x, this.y, width, height, null);
+		}
 	}
 
 	public void write() {
 		System.out.println(this.isCut);
-		System.out.println(gp.tileHeight);
 	}
 
 }
