@@ -56,8 +56,10 @@ public class GamePanel extends JPanel implements Runnable {
 	// OBJECTS
 	public Player player = new Player(this);
 
+	// GAME SCORES
 	public int score = 0;
 	public int highScore = 0;
+	public int strikes = 0;
 
 	public GamePanel() {
 		setFullScreen();

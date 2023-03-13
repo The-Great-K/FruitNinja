@@ -18,7 +18,7 @@ public class GameScreen {
 
 	private Random rand = new Random();
 
-	private ArrayList<CuttableEntity> foodList = new ArrayList<>();
+	public ArrayList<CuttableEntity> foodList = new ArrayList<>();
 
 	private int timer = 0;
 
@@ -27,11 +27,11 @@ public class GameScreen {
 	}
 
 	public void update() {
-		if (timer == 180) {
+		if (timer == 120) {
 			for (int i = 0; i < 3; i++) {
-				int foodX = rand.nextInt(gp.screenWidth - gp.tileWidth);
+				int foodX = rand.nextInt(gp.tileWidth * 2, gp.screenWidth - gp.tileWidth * 2);
 
-				int foodType = rand.nextInt(10);
+				int foodType = rand.nextInt(7);
 
 				if (foodType == 0) {
 					foodList.add(new Bomb(this.gp, this.gp.player, foodX, gp.screenHeight));
@@ -49,6 +49,10 @@ public class GameScreen {
 
 		for (int i = 0; i < foodList.size(); i++) {
 			foodList.get(i).update();
+		}
+
+		if (gp.strikes >= 3) {
+			gp.gameState = gp.GAME_OVER_STATE;
 		}
 
 		timer++;

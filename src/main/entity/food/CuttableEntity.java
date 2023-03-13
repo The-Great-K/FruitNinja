@@ -3,6 +3,7 @@ package main.entity.food;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import main.entity.Entity;
 import main.entity.EntityEnum;
@@ -20,9 +21,13 @@ public class CuttableEntity extends Entity {
 
 	public int xSpeed, ySpeed;
 
+	private Random rand = new Random();
+
 	public BufferedImage image_cut_top, image_cut_bottom;
 
 	public boolean isCut = false;
+
+	private boolean strikeAdded = false;
 
 	public int score;
 
@@ -52,7 +57,8 @@ public class CuttableEntity extends Entity {
 		if (!waited) {
 			if (timer == 3) {
 				waited = true;
-				ySpeed = (int) (gp.tileHeight / 3);
+				ySpeed = (int) gp.tileHeight / 3;
+				xSpeed = rand.nextInt(-3, 3);
 			}
 		} else {
 			if (gp.player.hitbox != null) {
@@ -65,9 +71,15 @@ public class CuttableEntity extends Entity {
 			}
 
 			y -= ySpeed;
+			x -= xSpeed;
 			if (timer == 5) {
 				ySpeed -= 1;
 				timer = 0;
+			}
+
+			if (this.y >= gp.screenHeight + gp.tileHeight * 3 && !strikeAdded && !isCut) {
+				gp.strikes += 1;
+				strikeAdded = true;
 			}
 		}
 
