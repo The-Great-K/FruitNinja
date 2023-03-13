@@ -20,6 +20,7 @@ public class Button extends Entity {
 
 	public Button(GamePanel gp, int x, int y, int width, int height) {
 		this.gp = gp;
+
 		setDefaultValues();
 		getButtonImage();
 
@@ -47,15 +48,16 @@ public class Button extends Entity {
 	}
 
 	public void update() {
-
 	}
 
 	public void render(Graphics2D g2) {
 		BufferedImage image = this.image;
 
 		g2.drawImage(image, x, y, width, height, null);
-		g2.setColor(Color.red);
-		g2.drawRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
+		if (this.hitboxOn) {
+			g2.setColor(Color.red);
+			g2.drawRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
+		}
 	}
 
 }

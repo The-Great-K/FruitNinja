@@ -1,6 +1,5 @@
 package main.entity.food;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -19,16 +18,19 @@ public class Fruit extends CuttableEntity {
 
 	public EntityEnum type;
 
-	private Random rand = new Random();
+	private int timer = 0;
+	private boolean waited = false;
 
 	public int xSpeed, ySpeed;
+
+	private Random rand = new Random();
 
 	public String[] fruitList = new String[6];
 	private int fruitType = rand.nextInt(fruitList.length);
 
-	public BufferedImage image_cut_top, image_cut_bottom;
-
 	public boolean isCut = false;
+
+	private boolean strikeAdded = false;
 
 	public Fruit(GamePanel gp, Player player, int x, int y) {
 		super(gp, player, x, y, 1);
@@ -75,6 +77,40 @@ public class Fruit extends CuttableEntity {
 	}
 
 	@Override
+	public void update() {
+		if (!waited) {
+			if (timer == 3) {
+				waited = true;
+				ySpeed = (int) gp.tileHeight / 3;
+				xSpeed = rand.nextInt(-3, 3);
+			}
+		} else {
+			if (gp.player.hitbox != null) {
+				if (this.isTouching(gp.player) && !this.isCut) {
+					this.isCut = true;
+					this.hitboxOn = false;
+
+					gp.score += score;
+				}
+			}
+
+			y -= ySpeed;
+			x -= xSpeed;
+			if (timer == 5) {
+				ySpeed -= 1;
+				timer = 0;
+			}
+
+			if (this.y >= gp.screenHeight + gp.tileHeight * 3 && !strikeAdded && !isCut) {
+				gp.strikes += 1;
+				strikeAdded = true;
+			}
+		}
+
+		timer++;
+	}
+
+	@Override
 	public void render(Graphics2D g2) {
 		BufferedImage image = this.image;
 		BufferedImage image_cut_top = this.image_cut_top;
@@ -86,11 +122,11 @@ public class Fruit extends CuttableEntity {
 		if (this.hitboxOn) {
 			this.hitbox = new Rectangle(this.x, this.y, width, height);
 
-			g2.setColor(Color.red);
-			g2.drawRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
+//			g2.setColor(Color.red);
+//			g2.drawRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
 		}
 
-		if (!this.isCut) {
+		if (!isCut) {
 			g2.drawImage(image, this.x, this.y, width, height, null);
 		} else {
 			g2.drawImage(image_cut_top, this.x, this.y, width, height, null);

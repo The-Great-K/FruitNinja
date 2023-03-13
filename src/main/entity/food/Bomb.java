@@ -1,6 +1,5 @@
 package main.entity.food;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -97,11 +96,12 @@ public class Bomb extends CuttableEntity {
 		if (this.hitboxOn) {
 			this.hitbox = new Rectangle(this.x, this.y, width, height);
 
-			g2.setColor(Color.red);
-			g2.drawRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
+//			g2.setColor(Color.red);
+//			g2.drawRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
 		}
 
 		g2.drawImage(image, this.x, this.y, width, height, null);
+
 	}
 
 	public void write() {

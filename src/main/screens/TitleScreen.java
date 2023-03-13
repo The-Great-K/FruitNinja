@@ -105,7 +105,6 @@ public class TitleScreen {
 			x = getXForCenteredText(text);
 			y = gp.tileHeight * 15;
 			g2.drawString(text, x, y);
-
 			quitButton = new Button(gp, gp.tileWidth * 8, y - gp.tileHeight * 2, gp.tileWidth * 16, gp.tileHeight * 2);
 			if (gp.player.hitbox != null && mouseH.mousePressed) {
 				if (quitButton.isTouching(gp.player)) {

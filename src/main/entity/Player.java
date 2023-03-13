@@ -1,6 +1,5 @@
 package main.entity;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.MouseInfo;
 import java.awt.Point;
@@ -67,8 +66,10 @@ public class Player extends Entity {
 		this.hitbox = new Rectangle(x, y, width, height);
 
 		g2.drawImage(image, x, y, gp.tileWidth / 3, gp.tileHeight / 3, null);
-		g2.setColor(Color.red);
-		g2.drawRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
+		if (this.hitboxOn) {
+//			g2.setColor(Color.red);
+//			g2.drawRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
+		}
 	}
 
 	public void write() {
