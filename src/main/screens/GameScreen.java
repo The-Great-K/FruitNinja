@@ -70,9 +70,9 @@ public class GameScreen {
 		for (int i = 0; i < foodList.size(); i++) {
 			foodList.get(i).render(g2);
 
-			text = Integer.toString(i);
-
-			g2.drawString(text, foodList.get(i).getX(), foodList.get(i).getY());
+//			text = Integer.toString(i);
+//
+//			g2.drawString(text, foodList.get(i).getX(), foodList.get(i).getY());
 		}
 
 		g2.setFont(g2.getFont().deriveFont(Font.PLAIN, gp.tileHeight * 2));
