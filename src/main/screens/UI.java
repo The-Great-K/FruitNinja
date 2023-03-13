@@ -3,11 +3,8 @@ package main.screens;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-
-import javax.imageio.ImageIO;
 
 import main.window.GamePanel;
 
@@ -20,17 +17,15 @@ public class UI {
 
 	public TitleScreen titleScreen;
 	public GameScreen gameScreen;
+	public GameOverScreen gameOverScreen;
 
 	public int commandNum = 0;
-	private BufferedImage image;
-	private String text;
-
-	private int x, y;
 
 	public UI(GamePanel gp) {
 		this.gp = gp;
 		this.titleScreen = new TitleScreen(this.gp);
 		this.gameScreen = new GameScreen(this.gp);
+		this.gameOverScreen = new GameOverScreen(this.gp);
 
 		createFont();
 	}
@@ -62,6 +57,10 @@ public class UI {
 		if (gp.gameState == gp.PLAY_STATE) {
 			drawGameScreen();
 		}
+
+		if (gp.gameState == gp.GAME_OVER_STATE) {
+			drawGameOverScreen();
+		}
 	}
 
 	public void write() {
@@ -71,36 +70,15 @@ public class UI {
 	}
 
 	public void drawTitleScreen() {
-		// BACKGROUND
-		try {
-			image = ImageIO.read(getClass().getResourceAsStream("/textures/backgrounds/wood.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 		titleScreen.render(g2);
 	}
 
 	public void drawGameScreen() {
-		// BACKGROUND
-		try {
-			image = ImageIO.read(getClass().getResourceAsStream("/textures/backgrounds/wood.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 		gameScreen.render(g2);
 	}
 
-	public int getXForCenteredText(String text) {
-		int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-		int x = gp.screenWidth / 2 - length / 2;
-		return x;
-	}
-
-	public int getXForCenteredImage(int width) {
-		int x = gp.screenWidth / 2 - width / 2;
-		return x;
+	public void drawGameOverScreen() {
+		gameOverScreen.render(g2);
 	}
 
 }

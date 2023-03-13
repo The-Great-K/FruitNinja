@@ -5,7 +5,8 @@ import java.awt.image.BufferedImage;
 
 public class Entity {
 
-	public int x, y;
+	public int x = -100;
+	public int y = -100;
 	public int width, height;
 
 	public BufferedImage image;
@@ -14,15 +15,23 @@ public class Entity {
 	public boolean hitboxOn = false;
 
 	public boolean isTouching(Entity entity) {
-		if (entity.hitboxOn) {
-			if (entity.hitbox.intersects(hitbox)) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
+		return entity.hitbox.intersects(hitbox);
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
 	}
 
 }

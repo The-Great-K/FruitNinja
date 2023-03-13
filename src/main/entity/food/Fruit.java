@@ -9,19 +9,15 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
-import main.entity.Entity;
 import main.entity.EntityEnum;
 import main.entity.Player;
 import main.window.GamePanel;
 
-public class Fruit extends Entity {
+public class Fruit extends CuttableEntity {
 
 	public GamePanel gp;
 
 	public EntityEnum type;
-
-	private int timer = 0;
-	private boolean waited = false;
 
 	private Random rand = new Random();
 
@@ -32,9 +28,11 @@ public class Fruit extends Entity {
 
 	public BufferedImage image_cut_top, image_cut_bottom;
 
-	private boolean isCut;
+	public boolean isCut = false;
 
 	public Fruit(GamePanel gp, Player player, int x, int y) {
+		super(gp, player, x, y, 1);
+
 		this.gp = gp;
 
 		fruitList[0] = "mango";
@@ -54,8 +52,8 @@ public class Fruit extends Entity {
 	}
 
 	public void setDefaultValues() {
-		this.x = 0;
-		this.y = 0;
+		this.x = -100;
+		this.y = -100;
 
 		this.hitboxOn = true;
 		this.isCut = false;
@@ -76,30 +74,7 @@ public class Fruit extends Entity {
 		}
 	}
 
-	public void update() {
-		if (!waited) {
-			if (timer == 1) {
-				waited = true;
-				ySpeed = (int) (gp.tileHeight / 3);
-			}
-		}
-
-		if (gp.player.hitbox != null) {
-			if (this.isTouching(gp.player) && !this.isCut) {
-				this.isCut = true;
-				this.hitboxOn = false;
-			}
-		}
-
-		y -= ySpeed;
-		if (timer == 5) {
-			ySpeed -= 1;
-			timer = 0;
-		}
-
-		timer++;
-	}
-
+	@Override
 	public void render(Graphics2D g2) {
 		BufferedImage image = this.image;
 		BufferedImage image_cut_top = this.image_cut_top;
@@ -120,10 +95,6 @@ public class Fruit extends Entity {
 		} else {
 			g2.drawImage(image_cut_top, this.x, this.y, width, height, null);
 		}
-	}
-
-	public void write() {
-		System.out.println(this.isCut);
 	}
 
 }

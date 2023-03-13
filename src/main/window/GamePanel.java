@@ -45,14 +45,19 @@ public class GamePanel extends JPanel implements Runnable {
 	// GAME STATES
 	public int gameState;
 	public final int TITLE_STATE = 0;
-	public final int PLAY_STATE = 1;
-	public final int SETTINGS_STATE = 2;
+	public final int SETTINGS_STATE = 1;
+	public final int PLAY_STATE = 2;
+	public final int PAUSE_STATE = 3;
+	public final int GAME_OVER_STATE = 4;
 
 	// SCREENS
 	public UI ui = new UI(this);
 
 	// OBJECTS
 	public Player player = new Player(this);
+
+	public int score = 0;
+	public int highScore = 0;
 
 	public GamePanel() {
 		setFullScreen();
