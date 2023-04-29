@@ -6,9 +6,11 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Random;
 
-import main.entity.food.Bomb;
-import main.entity.food.CuttableEntity;
-import main.entity.food.Fruit;
+import main.entity.cuttable.Bomb;
+import main.entity.cuttable.CuttableEntity;
+import main.entity.cuttable.Fruit;
+import main.entity.tower.Tower;
+import main.handlers.key.GameKeyHandler;
 import main.window.GamePanel;
 
 public class GameScreen {
@@ -16,19 +18,28 @@ public class GameScreen {
 	public GamePanel gp;
 	public Graphics2D g2;
 
+	public GameKeyHandler gameKeyH;
+
 	private Random rand = new Random();
 
 	public ArrayList<CuttableEntity> foodList = new ArrayList<>();
 
 	private int timer = 0;
+	public int timerMax = 120;
+	public int entityAmount = 5;
+
+	public Tower tower;
 
 	public GameScreen(GamePanel gp) {
 		this.gp = gp;
+
+		this.gameKeyH = new GameKeyHandler(this.gp);
+		tower = new Tower(this.gp);
 	}
 
 	public void update() {
-		if (timer == 120) {
-			for (int i = 0; i < 3; i++) {
+		if (timer == timerMax) {
+			for (int i = 0; i < entityAmount; i++) {
 				int foodX = rand.nextInt(gp.tileWidth * 2, gp.screenWidth - gp.tileWidth * 2);
 
 				int foodType = rand.nextInt(7);
@@ -53,6 +64,7 @@ public class GameScreen {
 
 		if (gp.strikes >= 3) {
 			gp.gameState = gp.GAME_OVER_STATE;
+			gp.saveData.save();
 		}
 
 		timer++;
@@ -82,6 +94,8 @@ public class GameScreen {
 		y = (int) g2.getFontMetrics().getStringBounds(text, g2).getHeight();
 
 		g2.drawString(text, x, y);
+
+		tower.render(g2);
 	}
 
 	public void write() {

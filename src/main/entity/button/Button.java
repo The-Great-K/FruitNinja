@@ -17,6 +17,18 @@ public class Button extends Entity {
 	protected GamePanel gp;
 
 	private EntityEnum type;
+	
+	public Button(GamePanel gp) {
+		this.gp = gp;
+
+		setDefaultValues();
+		getButtonImage();
+
+		this.x = 0;
+		this.y = 0;
+		this.width = 0;
+		this.height = 0;
+	}
 
 	public Button(GamePanel gp, int x, int y, int width, int height) {
 		this.gp = gp;
@@ -28,8 +40,6 @@ public class Button extends Entity {
 		this.y = y;
 		this.width = width;
 		this.height = height;
-
-		this.hitbox = new Rectangle(x, y, width, height);
 	}
 
 	public void setDefaultValues() {
@@ -48,6 +58,7 @@ public class Button extends Entity {
 	}
 
 	public void update() {
+		this.hitbox = new Rectangle(this.x, this.y, this.width, this.height);
 	}
 
 	public void render(Graphics2D g2) {

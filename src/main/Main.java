@@ -13,7 +13,7 @@ public class Main {
 		window = new JFrame(); // THE WINDOW
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // HOW TO CLOSE
 		window.setResizable(true); // RESIZABLE?
-		window.setUndecorated(false);
+		window.setUndecorated(false); // WINDOW BUTTON OFF
 		window.setTitle("Fruit Ninja"); // WINDOW TITLE
 
 		GamePanel gamePanel = new GamePanel(); // THE PANEL

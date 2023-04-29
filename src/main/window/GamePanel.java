@@ -11,10 +11,14 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import data.SaveData;
 import main.Main;
 import main.entity.Player;
 import main.handlers.MouseHandler;
-import main.handlers.SettingsKeyHandler;
+import main.handlers.WindowHandler;
+import main.handlers.key.GameKeyHandler;
+import main.handlers.key.SettingsKeyHandler;
+import main.handlers.key.UniversalKeyHandler;
 import main.screens.UI;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -22,23 +26,26 @@ public class GamePanel extends JPanel implements Runnable {
 	private static final long serialVersionUID = -5621533987836333041L;
 
 	// SCREEN SETTINGS
-	public Dimension screenDimensions = Toolkit.getDefaultToolkit().getScreenSize();
+	public Dimension screenDimensions = Toolkit.getDefaultToolkit().getScreenSize(); // SCREEN DIMENSIONS
 
-	public int realScreenWidth = (int) screenDimensions.getWidth() + 1;
-	public int realScreenHeight = (int) screenDimensions.getHeight() + 1;
+	public int realScreenWidth = (int) screenDimensions.getWidth() + 1; // SCREEN WIDTH
+	public int realScreenHeight = (int) screenDimensions.getHeight() + 1; // SCREEN HEIGHT
 
-	public int screenWidth, screenHeight;
+	public int screenWidth, screenHeight; // WINDOW DIMENSIONS
 
-	public final int screenTileRow = 32;
-	public final int screenTileCol = 18;
+	public final int SCREEN_TILE_ROW = 32; // TILES PER ROW
+	public final int SCREEN_TILE_COL = 18; // TILES PER COLUMN
 	public int tileWidth, tileHeight;
 
-	public boolean fullScreen = false;
+	public boolean fullScreen = false; // IS FULLSCREEN
 
-	public int TPS = 60; // TICKS PER SECOND
+	public final int TPS = 60; // TICKS PER SECOND
 
-	public SettingsKeyHandler settingsKeyH = new SettingsKeyHandler(this); // KEY CONTROL
-	public MouseHandler mouseH = new MouseHandler(this);
+	public UniversalKeyHandler unversalKeyH = new UniversalKeyHandler(this); // UNIVERSAL KEY CONTROL
+	public GameKeyHandler gameKeyH = new GameKeyHandler(this); // GAME KEY CONTROL
+	public SettingsKeyHandler settingsKeyH = new SettingsKeyHandler(this); // SETTINGS KEY CONTROL
+	public MouseHandler mouseH = new MouseHandler(this); // MOUSE CONTROL
+	public WindowHandler windowH = new WindowHandler(this); // WINDOW CONTROL
 
 	public Thread gameThread; // CONTROLS TIME
 
@@ -61,6 +68,14 @@ public class GamePanel extends JPanel implements Runnable {
 	public int highScore = 0;
 	public int strikes = 0;
 
+	// SAVE AND LOAD
+	public SaveData saveData = new SaveData(this);
+	public int saveTimer = 0;
+	public final int SAVE_TIMER_MAX = TPS * 300;
+
+	// PAUSED
+	public boolean paused = false;
+
 	public GamePanel() {
 		setFullScreen();
 		this.setMinimumSize(new Dimension(160, 90)); // SETS MINIMUM SCREEN SIZE
@@ -70,18 +85,27 @@ public class GamePanel extends JPanel implements Runnable {
 		this.setFocusable(true); // FOCUSES ON KEY INPUT
 	}
 
-	public void setupGame() {
+	public void setupGame() { // SETS UP GAME INFORMATION
 		gameState = TITLE_STATE;
+		saveData.load();
 	}
 
-	public void startGameThread() {
+	public void startGameThread() { // STARTS GAME TIME
 		gameThread = new Thread(this);
 		gameThread.start();
 	}
 
+	public void pauseGame() { // PAUSES GAME
+		paused = true;
+	}
+
+	public void unpauseGame() { // UNPAUSES GAME
+		paused = false;
+	}
+
 	@Override
 	public void run() { // GAME LOOP
-		while (gameThread != null) {
+		while (gameThread != null && !paused) {
 			// DELTA GAME LOOP
 			double drawInterval = 1000000000 / TPS;
 			double delta = 0;
@@ -115,12 +139,25 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 
 	public void update() { // UPDATES
+		// RUNS THE LISTENERS
+		requestFocus(true);
+
+		// UPDATES FOR OBJECTS
 		player.update();
 		ui.update();
+
+		// SAVES EVERY 5 MINUTES
+		if (saveTimer == SAVE_TIMER_MAX) {
+			saveData.save();
+
+			saveTimer = 0;
+		}
+		saveTimer++;
 	}
 
 	@Override
 	public void paintComponent(Graphics g) { // RENDERS
+		// TELLS THE GAME HOW BIG THE WINDOW IS
 		screenWidth = Main.window.getWidth();
 		screenHeight = Main.window.getHeight();
 		if (screenWidth == 0 || screenHeight == 0) {
@@ -128,38 +165,43 @@ public class GamePanel extends JPanel implements Runnable {
 			screenHeight = realScreenHeight;
 		}
 
-		if (settingsKeyH.fullScreen != fullScreen) {
-			if (settingsKeyH.fullScreen) {
+		// RUNS FULLSCREEN
+		if (unversalKeyH.fullScreen != fullScreen) {
+			if (unversalKeyH.fullScreen) {
 				setFullScreen();
 			} else {
 				exitFullScreen();
 			}
 		}
 
-		if (settingsKeyH.quit) {
+		// QUIT SWITCH
+		if (unversalKeyH.quit) {
 			System.exit(0);
 		}
 
-		tileWidth = screenWidth / screenTileRow;
-		tileHeight = screenHeight / screenTileCol;
+		// SETS TILE SIZE
+		tileWidth = screenWidth / SCREEN_TILE_ROW;
+		tileHeight = screenHeight / SCREEN_TILE_COL;
 
+		// RUNS THE GRAPHICS ENGINE
 		super.paintComponent(g);
 
 		Graphics2D g2 = (Graphics2D) g;
 
+		// RENDERS FOR OBJECTS
 		ui.render(g2);
-
 		player.render(g2);
 
 		g2.dispose(); // DELETES OLD IMAGE
 	}
 
-	public void write() {
+	public void write() { // CONSOLE
+		// CONSOLE TEXT FOR OBJECTS
 		player.write();
 		ui.write();
 	}
 
-	public void setFullScreen() {
+	public void setFullScreen() { // ENTERS FULLSCREEN
 		GraphicsEnvironment gEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice gDevice = gEnvironment.getDefaultScreenDevice();
 
@@ -181,7 +223,7 @@ public class GamePanel extends JPanel implements Runnable {
 		fullScreen = true;
 	}
 
-	public void exitFullScreen() {
+	public void exitFullScreen() { // EXITS FULLSCREEN
 		Main.window.dispose();
 
 		Main.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // HOW TO CLOSE
@@ -195,6 +237,13 @@ public class GamePanel extends JPanel implements Runnable {
 		Main.window.setVisible(true); // CAN YOU SEE IT?
 
 		fullScreen = false;
+	}
+
+	public void restartGame() {
+		this.score = 0;
+		this.ui.gameScreen.foodList.clear();
+		this.strikes = 0;
+		this.gameState = this.PLAY_STATE;
 	}
 
 }

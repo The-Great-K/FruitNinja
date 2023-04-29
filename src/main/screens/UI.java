@@ -16,6 +16,7 @@ public class UI {
 	public Font gameFont;
 
 	public TitleScreen titleScreen;
+	public SettingsScreen settingsScreen;
 	public GameScreen gameScreen;
 	public GameOverScreen gameOverScreen;
 
@@ -24,6 +25,7 @@ public class UI {
 	public UI(GamePanel gp) {
 		this.gp = gp;
 		this.titleScreen = new TitleScreen(this.gp);
+		this.settingsScreen = new SettingsScreen(this.gp);
 		this.gameScreen = new GameScreen(this.gp);
 		this.gameOverScreen = new GameOverScreen(this.gp);
 
@@ -40,8 +42,21 @@ public class UI {
 	}
 
 	public void update() {
+
+		if (gp.gameState == gp.TITLE_STATE) {
+			titleScreen.update();
+		}
+
+		if (gp.gameState == gp.SETTINGS_STATE) {
+			settingsScreen.update();
+		}
+
 		if (gp.gameState == gp.PLAY_STATE) {
 			gameScreen.update();
+		}
+
+		if (gp.gameState == gp.GAME_OVER_STATE) {
+			gameOverScreen.update();
 		}
 	}
 
@@ -51,34 +66,29 @@ public class UI {
 		g2.setFont(this.gameFont);
 
 		if (gp.gameState == gp.TITLE_STATE) {
-			drawTitleScreen();
+			titleScreen.render(g2);
+		}
+
+		if (gp.gameState == gp.SETTINGS_STATE) {
+			settingsScreen.render(g2);
 		}
 
 		if (gp.gameState == gp.PLAY_STATE) {
-			drawGameScreen();
+			gameScreen.render(g2);
 		}
 
 		if (gp.gameState == gp.GAME_OVER_STATE) {
-			drawGameOverScreen();
+			gameOverScreen.render(g2);
 		}
 	}
 
 	public void write() {
+		if (gp.gameState == gp.TITLE_STATE) {
+			titleScreen.write();
+		}
 		if (gp.gameState == gp.PLAY_STATE) {
 			gameScreen.write();
 		}
-	}
-
-	public void drawTitleScreen() {
-		titleScreen.render(g2);
-	}
-
-	public void drawGameScreen() {
-		gameScreen.render(g2);
-	}
-
-	public void drawGameOverScreen() {
-		gameOverScreen.render(g2);
 	}
 
 }

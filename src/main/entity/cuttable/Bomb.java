@@ -1,4 +1,4 @@
-package main.entity.food;
+package main.entity.cuttable;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -22,6 +22,9 @@ public class Bomb extends CuttableEntity {
 	private boolean waited = false;
 
 	private Random rand = new Random();
+
+	public double xSpeed, ySpeed;
+	public double rotateSpeed = rand.nextDouble(-0.5, 0.5);
 
 	public boolean isCut = false;
 
@@ -55,6 +58,7 @@ public class Bomb extends CuttableEntity {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		this.rotatedImage = new BufferedImage(1, 1, image.getType());
 	}
 
 	@Override
@@ -63,7 +67,9 @@ public class Bomb extends CuttableEntity {
 			if (timer == 3) {
 				waited = true;
 				ySpeed = (int) gp.tileHeight / 3;
-				xSpeed = rand.nextInt(-3, 3);
+				double randSpeed = rand.nextDouble(-2, 2);
+				ySpeed += randSpeed;
+				xSpeed = rand.nextDouble(-2, 2);
 			}
 		} else {
 			if (gp.player.hitbox != null) {
@@ -77,10 +83,13 @@ public class Bomb extends CuttableEntity {
 
 			y -= ySpeed;
 			x -= xSpeed;
+			rotation -= rotateSpeed;
 			if (timer == 5) {
 				ySpeed -= 1;
 				timer = 0;
 			}
+
+			this.rotatedImage = this.rotateImage(rotation, width, height, image);
 		}
 
 		timer++;
@@ -88,7 +97,7 @@ public class Bomb extends CuttableEntity {
 
 	@Override
 	public void render(Graphics2D g2) {
-		BufferedImage image = this.image;
+		BufferedImage rotatedImage = this.rotatedImage;
 
 		this.width = gp.tileWidth * 2;
 		this.height = gp.tileHeight * 2;
@@ -100,7 +109,7 @@ public class Bomb extends CuttableEntity {
 //			g2.drawRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
 		}
 
-		g2.drawImage(image, this.x, this.y, width, height, null);
+		g2.drawImage(rotatedImage, this.x, this.y, width, height, null);
 
 	}
 

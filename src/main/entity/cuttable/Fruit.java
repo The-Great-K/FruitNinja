@@ -1,4 +1,4 @@
-package main.entity.food;
+package main.entity.cuttable;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -16,14 +16,13 @@ public class Fruit extends CuttableEntity {
 
 	public GamePanel gp;
 
-	public EntityEnum type;
-
 	private int timer = 0;
 	private boolean waited = false;
 
-	public int xSpeed, ySpeed;
-
 	private Random rand = new Random();
+
+	public double xSpeed, ySpeed;
+	public double rotateSpeed = rand.nextDouble(-0.5, 0.5);
 
 	public String[] fruitList = new String[6];
 	private int fruitType = rand.nextInt(fruitList.length);
@@ -65,15 +64,18 @@ public class Fruit extends CuttableEntity {
 
 	public void getFruitImage() {
 		try {
-			image = ImageIO
-					.read(getClass().getResourceAsStream("/textures/foods/fruits/" + fruitList[fruitType] + ".png"));
-			image_cut_top = ImageIO.read(
-					getClass().getResourceAsStream("/textures/foods/fruits/" + fruitList[fruitType] + "_top.png"));
-			image_cut_bottom = ImageIO.read(
-					getClass().getResourceAsStream("/textures/foods/fruits/" + fruitList[fruitType] + "_bottom.png"));
+			image = ImageIO.read(getClass()
+					.getResourceAsStream("/textures/entity/cuttable/fruits/" + fruitList[fruitType] + ".png"));
+			image_cut_top = ImageIO.read(getClass()
+					.getResourceAsStream("/textures/entity/cuttable/fruits/" + fruitList[fruitType] + "_top.png"));
+			image_cut_bottom = ImageIO.read(getClass()
+					.getResourceAsStream("/textures/entity/cuttable/fruits/" + fruitList[fruitType] + "_bottom.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		this.rotatedImage = new BufferedImage(1, 1, image.getType());
+		this.rotatedImage_cut_top = new BufferedImage(1, 1, image_cut_top.getType());
+		this.rotatedImage_cut_bottom = new BufferedImage(1, 1, image_cut_bottom.getType());
 	}
 
 	@Override
@@ -82,7 +84,9 @@ public class Fruit extends CuttableEntity {
 			if (timer == 3) {
 				waited = true;
 				ySpeed = (int) gp.tileHeight / 3;
-				xSpeed = rand.nextInt(-3, 3);
+				double randSpeed = rand.nextDouble(-2, 2);
+				ySpeed += randSpeed;
+				xSpeed = rand.nextDouble(-2, 2);
 			}
 		} else {
 			if (gp.player.hitbox != null) {
@@ -96,10 +100,14 @@ public class Fruit extends CuttableEntity {
 
 			y -= ySpeed;
 			x -= xSpeed;
+			rotation -= rotateSpeed;
 			if (timer == 5) {
 				ySpeed -= 1;
 				timer = 0;
 			}
+
+			this.rotatedImage = this.rotateImage(rotation, width, height, image);
+			this.rotatedImage_cut_top = this.rotateImage(rotation, width, height, image_cut_top);
 
 			if (this.y >= gp.screenHeight + gp.tileHeight * 3 && !strikeAdded && !isCut) {
 				gp.strikes += 1;
@@ -112,9 +120,8 @@ public class Fruit extends CuttableEntity {
 
 	@Override
 	public void render(Graphics2D g2) {
-		BufferedImage image = this.image;
-		BufferedImage image_cut_top = this.image_cut_top;
-		BufferedImage image_cut_bottom = this.image_cut_bottom;
+		BufferedImage rotatedImage = this.rotatedImage;
+		BufferedImage rotatedImage_cut_top = this.rotatedImage_cut_top;
 
 		this.width = gp.tileWidth * 2;
 		this.height = gp.tileHeight * 2;
@@ -127,9 +134,9 @@ public class Fruit extends CuttableEntity {
 		}
 
 		if (!isCut) {
-			g2.drawImage(image, this.x, this.y, width, height, null);
+			g2.drawImage(rotatedImage, this.x, this.y, width, height, null);
 		} else {
-			g2.drawImage(image_cut_top, this.x, this.y, width, height, null);
+			g2.drawImage(rotatedImage_cut_top, this.x, this.y, width, height, null);
 		}
 	}
 

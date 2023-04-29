@@ -1,0 +1,3 @@
+Make a game that combines Fruit Ninja style game and a tower defense and puts them on the same
+screen, your progress on the tower defense boosts the amount of cuttable entities that spawn
+and the amount of entities that you cut boosts your ability to progress in the tower defense
