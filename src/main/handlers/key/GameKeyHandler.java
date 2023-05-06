@@ -25,11 +25,16 @@ public class GameKeyHandler implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if (gp.gameState == gp.PLAY_STATE) {
-			int code = e.getKeyCode();
+		int code = e.getKeyCode();
 
+		if (gp.gameState == gp.PLAY_STATE) {
 			if (code == KeyEvent.VK_ESCAPE) {
-				gp.gameState = gp.SETTINGS_STATE;
+				if (!gp.showOptionsMenu) {
+					gp.showOptionsMenu = true;
+				} else {
+					gp.gameState = gp.TITLE_STATE;
+					gp.saveData.save();
+				}
 			}
 		}
 	}

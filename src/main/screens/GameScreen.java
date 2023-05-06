@@ -33,7 +33,6 @@ public class GameScreen {
 	public GameScreen(GamePanel gp) {
 		this.gp = gp;
 
-		this.gameKeyH = new GameKeyHandler(this.gp);
 		tower = new Tower(this.gp);
 	}
 
@@ -82,9 +81,9 @@ public class GameScreen {
 		for (int i = 0; i < foodList.size(); i++) {
 			foodList.get(i).render(g2);
 
-//			text = Integer.toString(i);
+//				text = Integer.toString(i);
 //
-//			g2.drawString(text, foodList.get(i).getX(), foodList.get(i).getY());
+//				g2.drawString(text, foodList.get(i).getX(), foodList.get(i).getY());
 		}
 
 		g2.setFont(g2.getFont().deriveFont(Font.PLAIN, gp.tileHeight * 2));
@@ -99,7 +98,7 @@ public class GameScreen {
 	}
 
 	public void write() {
-		System.out.println(foodList.size());
+		System.out.println("Paused: " + gp.showOptionsMenu);
 	}
 
 }

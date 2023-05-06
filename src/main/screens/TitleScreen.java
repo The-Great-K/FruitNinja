@@ -31,10 +31,10 @@ public class TitleScreen {
 
 	public TitleScreen(GamePanel gp) {
 		this.gp = gp;
-		gameButton = new Button(gp);
-		settingsButton = new Button(gp);
-		perksButton = new Button(gp);
-		quitButton = new Button(gp);
+		gameButton = new Button(gp, "16x2");
+		settingsButton = new Button(gp, "8x2");
+		perksButton = new Button(gp, "8x2");
+		quitButton = new Button(gp, "16x2");
 		this.mouseH = new MouseHandler(this.gp);
 	}
 
@@ -121,7 +121,7 @@ public class TitleScreen {
 			g2.drawString(text, x, y - gp.tileHeight / 3);
 			if (gp.player.hitbox != null && mouseH.mousePressed) {
 				if (settingsButton.isTouching(gp.player)) {
-					gp.gameState = gp.SETTINGS_STATE;
+					gp.showOptionsMenu = true;
 				}
 			}
 
@@ -136,7 +136,7 @@ public class TitleScreen {
 			g2.drawString(text, x, y - gp.tileHeight / 3);
 			if (gp.player.hitbox != null && mouseH.mousePressed) {
 				if (perksButton.isTouching(gp.player)) {
-					gp.gameState = gp.SETTINGS_STATE;
+					gp.showOptionsMenu = true;
 				}
 			}
 

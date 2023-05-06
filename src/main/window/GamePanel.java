@@ -17,7 +17,6 @@ import main.entity.Player;
 import main.handlers.MouseHandler;
 import main.handlers.WindowHandler;
 import main.handlers.key.GameKeyHandler;
-import main.handlers.key.SettingsKeyHandler;
 import main.handlers.key.UniversalKeyHandler;
 import main.screens.UI;
 
@@ -43,7 +42,6 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public UniversalKeyHandler unversalKeyH = new UniversalKeyHandler(this); // UNIVERSAL KEY CONTROL
 	public GameKeyHandler gameKeyH = new GameKeyHandler(this); // GAME KEY CONTROL
-	public SettingsKeyHandler settingsKeyH = new SettingsKeyHandler(this); // SETTINGS KEY CONTROL
 	public MouseHandler mouseH = new MouseHandler(this); // MOUSE CONTROL
 	public WindowHandler windowH = new WindowHandler(this); // WINDOW CONTROL
 
@@ -51,11 +49,10 @@ public class GamePanel extends JPanel implements Runnable {
 
 	// GAME STATES
 	public int gameState;
+	public boolean showOptionsMenu = false;
 	public final int TITLE_STATE = 0;
-	public final int SETTINGS_STATE = 1;
-	public final int PLAY_STATE = 2;
-	public final int PAUSE_STATE = 3;
-	public final int GAME_OVER_STATE = 4;
+	public final int PLAY_STATE = 1;
+	public final int GAME_OVER_STATE = 2;
 
 	// SCREENS
 	public UI ui = new UI(this);
@@ -72,9 +69,6 @@ public class GamePanel extends JPanel implements Runnable {
 	public SaveData saveData = new SaveData(this);
 	public int saveTimer = 0;
 	public final int SAVE_TIMER_MAX = TPS * 300;
-
-	// PAUSED
-	public boolean paused = false;
 
 	public GamePanel() {
 		setFullScreen();
@@ -95,17 +89,9 @@ public class GamePanel extends JPanel implements Runnable {
 		gameThread.start();
 	}
 
-	public void pauseGame() { // PAUSES GAME
-		paused = true;
-	}
-
-	public void unpauseGame() { // UNPAUSES GAME
-		paused = false;
-	}
-
 	@Override
 	public void run() { // GAME LOOP
-		while (gameThread != null && !paused) {
+		while (gameThread != null) {
 			// DELTA GAME LOOP
 			double drawInterval = 1000000000 / TPS;
 			double delta = 0;

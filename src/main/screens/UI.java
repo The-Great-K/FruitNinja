@@ -42,21 +42,20 @@ public class UI {
 	}
 
 	public void update() {
-
 		if (gp.gameState == gp.TITLE_STATE) {
 			titleScreen.update();
 		}
 
-		if (gp.gameState == gp.SETTINGS_STATE) {
-			settingsScreen.update();
-		}
-
-		if (gp.gameState == gp.PLAY_STATE) {
+		if (gp.gameState == gp.PLAY_STATE && !gp.showOptionsMenu) {
 			gameScreen.update();
 		}
 
 		if (gp.gameState == gp.GAME_OVER_STATE) {
 			gameOverScreen.update();
+		}
+
+		if (gp.showOptionsMenu) {
+			settingsScreen.update();
 		}
 	}
 
@@ -69,16 +68,16 @@ public class UI {
 			titleScreen.render(g2);
 		}
 
-		if (gp.gameState == gp.SETTINGS_STATE) {
-			settingsScreen.render(g2);
-		}
-
 		if (gp.gameState == gp.PLAY_STATE) {
 			gameScreen.render(g2);
 		}
 
 		if (gp.gameState == gp.GAME_OVER_STATE) {
 			gameOverScreen.render(g2);
+		}
+
+		if (gp.showOptionsMenu) {
+			settingsScreen.render(g2);
 		}
 	}
 

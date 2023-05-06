@@ -17,8 +17,10 @@ public class Button extends Entity {
 	protected GamePanel gp;
 
 	private EntityEnum type;
-	
-	public Button(GamePanel gp) {
+
+	public String dimensions;
+
+	public Button(GamePanel gp, String dimensions) {
 		this.gp = gp;
 
 		setDefaultValues();
@@ -30,7 +32,7 @@ public class Button extends Entity {
 		this.height = 0;
 	}
 
-	public Button(GamePanel gp, int x, int y, int width, int height) {
+	public Button(GamePanel gp, int x, int y, int width, int height, String dimensions) {
 		this.gp = gp;
 
 		setDefaultValues();
@@ -40,6 +42,7 @@ public class Button extends Entity {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.dimensions = dimensions;
 	}
 
 	public void setDefaultValues() {
@@ -51,7 +54,7 @@ public class Button extends Entity {
 
 	public void getButtonImage() {
 		try {
-			image = ImageIO.read(getClass().getResourceAsStream("/textures/button/button.png"));
+			image = ImageIO.read(getClass().getResourceAsStream("/textures/button/button_12x2.png"));
 		} catch (IOException e) {
 			e.getStackTrace();
 		}

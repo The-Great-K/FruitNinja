@@ -23,8 +23,8 @@ public class GameOverScreen {
 
 	public GameOverScreen(GamePanel gp) {
 		this.gp = gp;
-		restartButton = new Button(gp);
-		homeButton = new Button(gp);
+		restartButton = new Button(gp, "12x2");
+		homeButton = new Button(gp, "12x2");
 		this.mouseH = new MouseHandler(this.gp);
 	}
 
