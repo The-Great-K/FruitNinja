@@ -26,12 +26,12 @@ public class SettingsScreen {
 
 	public SettingsScreen(GamePanel gp) {
 		this.gp = gp;
-		backButton = new Button(gp, "8x2");
-		soundButton = new Button(gp, "8x2");
-		controlsButton = new Button(gp, "8x2");
-		videoButton = new Button(gp, "8x2");
-		statisticsButton = new Button(gp, "8x2");
-		quitButton = new Button(gp, "8x2");
+		backButton = new Button(gp, "16x2", "BACK");
+		soundButton = new Button(gp, "8x2", "AUDIO");
+		controlsButton = new Button(gp, "8x2", "CONTROLS");
+		videoButton = new Button(gp, "8x2", "VIDEO");
+		statisticsButton = new Button(gp, "8x2", "STATS");
+		quitButton = new Button(gp, "16x2", "QUIT");
 		this.mouseH = new MouseHandler(gp);
 	}
 

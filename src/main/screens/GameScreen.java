@@ -1,6 +1,5 @@
 package main.screens;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -74,9 +73,7 @@ public class GameScreen {
 		int x;
 		int y;
 
-		g2.setFont(g2.getFont().deriveFont(Font.PLAIN, gp.tileHeight * 1));
-
-		g2.setColor(Color.red);
+		g2.setColor(gp.colorState);
 
 		for (int i = 0; i < foodList.size(); i++) {
 			foodList.get(i).render(g2);
@@ -86,10 +83,10 @@ public class GameScreen {
 //				g2.drawString(text, foodList.get(i).getX(), foodList.get(i).getY());
 		}
 
-		g2.setFont(g2.getFont().deriveFont(Font.PLAIN, gp.tileHeight * 2));
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD, gp.tileHeight * 2));
 
 		text = "Score: " + Integer.toString(gp.score);
-		x = 0;
+		x = gp.tileWidth;
 		y = (int) g2.getFontMetrics().getStringBounds(text, g2).getHeight();
 
 		g2.drawString(text, x, y);

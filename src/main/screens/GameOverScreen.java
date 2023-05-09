@@ -1,6 +1,5 @@
 package main.screens;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -23,8 +22,8 @@ public class GameOverScreen {
 
 	public GameOverScreen(GamePanel gp) {
 		this.gp = gp;
-		restartButton = new Button(gp, "12x2");
-		homeButton = new Button(gp, "12x2");
+		restartButton = new Button(gp, "12x2", "RESTART");
+		homeButton = new Button(gp, "12x2", "HOME");
 		this.mouseH = new MouseHandler(this.gp);
 	}
 
@@ -50,8 +49,8 @@ public class GameOverScreen {
 		restartButton.render(g2);
 		homeButton.render(g2);
 
-		g2.setColor(Color.red);
-		g2.setFont(g2.getFont().deriveFont(Font.BOLD, gp.tileHeight * 4));
+		g2.setColor(gp.colorState);
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD, gp.tileWidth * 3));
 
 		// GAME OVER TEXT
 		text = "Game Over!";
@@ -60,21 +59,14 @@ public class GameOverScreen {
 		g2.drawString(text, x, y);
 
 		// SCORES
-		g2.setFont(g2.getFont().deriveFont(Font.PLAIN, gp.tileHeight * 1));
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD, gp.tileWidth * 1));
+
 		text = "Score: " + gp.score + "  High Score: " + gp.highScore;
 		x = (int) getLocationForCenteredText(text).getX();
 		y = (int) getLocationForCenteredText(text).getY();
 		g2.drawString(text, x, y);
 
-		// BUTTONS
-		float temp = (float) (gp.tileHeight * 1.5);
-		g2.setFont(g2.getFont().deriveFont(Font.PLAIN, temp));
-
 		// RESTART BUTTON
-		text = "Restart";
-		x = (int) getLocationForCenteredText(text).getX() - gp.tileWidth * 6;
-		y = gp.tileHeight * 12 - (gp.tileHeight / 2);
-		g2.drawString(text, x, y);
 		if (gp.player.hitbox != null && this.mouseH.mousePressed) {
 			if (restartButton.isTouching(gp.player)) {
 				gp.restartGame();
@@ -82,10 +74,6 @@ public class GameOverScreen {
 		}
 
 		// HOME BUTTON
-		text = "Home";
-		x = (int) getLocationForCenteredText(text).getX() + gp.tileWidth * 6;
-		y = gp.tileHeight * 12 - (gp.tileHeight / 2);
-		g2.drawString(text, x, y);
 		if (gp.player.hitbox != null && this.mouseH.mousePressed) {
 			if (homeButton.isTouching(gp.player)) {
 				gp.ui.titleScreen.waited = false;

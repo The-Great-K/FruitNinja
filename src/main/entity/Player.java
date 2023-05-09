@@ -73,10 +73,10 @@ public class Player extends Entity {
 	}
 
 	public void write() {
-		System.out.println("x: " + this.x);
-		System.out.println("y: " + this.y);
-		System.out.println("window x: " + this.location.x);
-		System.out.println("window y: " + this.location.y);
+		System.out.println("Player X: " + this.x);
+		System.out.println("Player Y: " + this.y);
+		System.out.println("Window X: " + this.location.x);
+		System.out.println("Window Y: " + this.location.y);
 	}
 
 }

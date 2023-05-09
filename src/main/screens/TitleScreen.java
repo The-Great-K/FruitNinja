@@ -1,7 +1,5 @@
 package main.screens;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -31,10 +29,10 @@ public class TitleScreen {
 
 	public TitleScreen(GamePanel gp) {
 		this.gp = gp;
-		gameButton = new Button(gp, "16x2");
-		settingsButton = new Button(gp, "8x2");
-		perksButton = new Button(gp, "8x2");
-		quitButton = new Button(gp, "16x2");
+		gameButton = new Button(gp, "16x2", "NEW GAME");
+		settingsButton = new Button(gp, "8x2", "SETTINGS");
+		perksButton = new Button(gp, "8x2", "PERKS");
+		quitButton = new Button(gp, "16x2", "QUIT");
 		this.mouseH = new MouseHandler(this.gp);
 	}
 
@@ -91,15 +89,7 @@ public class TitleScreen {
 			g2.drawImage(image, x, y, width, gp.tileHeight * 6, null);
 
 			// MENU
-			float temp = (float) (gp.tileHeight * 1.5);
-			g2.setFont(g2.getFont().deriveFont(Font.PLAIN, temp));
-
 			// NEW GAME
-			g2.setColor(Color.red);
-			text = "NEW GAME";
-			x = getXForCenteredText(text);
-			y = gp.tileHeight * 11;
-			g2.drawString(text, x, y - gp.tileHeight / 3);
 			if (gp.player.hitbox != null && this.mouseH.mousePressed) {
 				if (gameButton.isTouching(gp.player)) {
 					gp.restartGame();
@@ -111,14 +101,6 @@ public class TitleScreen {
 			// DONATE
 
 			// SETTINGS
-			temp = (float) (gp.tileHeight * 1.25);
-			g2.setFont(g2.getFont().deriveFont(Font.PLAIN, temp));
-
-			g2.setColor(Color.yellow);
-			text = "SETTINGS";
-			x = getXForCenteredText(text) - gp.tileWidth * 4 - gp.tileWidth / 4;
-			y = gp.tileHeight * 13;
-			g2.drawString(text, x, y - gp.tileHeight / 3);
 			if (gp.player.hitbox != null && mouseH.mousePressed) {
 				if (settingsButton.isTouching(gp.player)) {
 					gp.showOptionsMenu = true;
@@ -126,14 +108,6 @@ public class TitleScreen {
 			}
 
 			// PERKS
-			temp = (float) (gp.tileHeight * 1.25);
-			g2.setFont(g2.getFont().deriveFont(Font.PLAIN, temp));
-
-			g2.setColor(Color.green);
-			text = "PERKS";
-			x = getXForCenteredText(text) + gp.tileWidth * 4 - gp.tileWidth / 4;
-			y = gp.tileHeight * 13;
-			g2.drawString(text, x, y - gp.tileHeight / 3);
 			if (gp.player.hitbox != null && mouseH.mousePressed) {
 				if (perksButton.isTouching(gp.player)) {
 					gp.showOptionsMenu = true;
@@ -141,14 +115,6 @@ public class TitleScreen {
 			}
 
 			// QUIT GAME
-			temp = (float) (gp.tileHeight * 1.5);
-			g2.setFont(g2.getFont().deriveFont(Font.PLAIN, temp));
-
-			g2.setColor(Color.blue);
-			text = "QUIT";
-			x = getXForCenteredText(text);
-			y = gp.tileHeight * 15;
-			g2.drawString(text, x, y - gp.tileHeight / 3);
 			if (gp.player.hitbox != null && mouseH.mousePressed) {
 				if (quitButton.isTouching(gp.player)) {
 					System.exit(0);
@@ -159,7 +125,7 @@ public class TitleScreen {
 	}
 
 	public void write() {
-		System.out.println("Play Button X: " + gameButton.x);
+		System.out.println(gameButton.dimensionsToInt[0] + ", " + gameButton.dimensionsToInt[1]);
 	}
 
 	public int getXForCenteredText(String text) {

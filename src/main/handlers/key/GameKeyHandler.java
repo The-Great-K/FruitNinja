@@ -32,8 +32,7 @@ public class GameKeyHandler implements KeyListener {
 				if (!gp.showOptionsMenu) {
 					gp.showOptionsMenu = true;
 				} else {
-					gp.gameState = gp.TITLE_STATE;
-					gp.saveData.save();
+					gp.showOptionsMenu = false;
 				}
 			}
 		}

@@ -42,7 +42,7 @@ public class UI {
 	}
 
 	public void update() {
-		if (gp.gameState == gp.TITLE_STATE) {
+		if (gp.gameState == gp.TITLE_STATE && !gp.showOptionsMenu) {
 			titleScreen.update();
 		}
 
@@ -64,7 +64,7 @@ public class UI {
 
 		g2.setFont(this.gameFont);
 
-		if (gp.gameState == gp.TITLE_STATE) {
+		if (gp.gameState == gp.TITLE_STATE && !gp.showOptionsMenu) {
 			titleScreen.render(g2);
 		}
 

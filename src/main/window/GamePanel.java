@@ -54,6 +54,14 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int PLAY_STATE = 1;
 	public final int GAME_OVER_STATE = 2;
 
+	// COLOR THEMES
+	public Color colorState;
+	public final Color RED = new Color(255, 0, 0);
+	public final Color GREEN = new Color(0, 255, 0);
+	public final Color BLUE = new Color(0, 0, 255);
+	public final Color PURPLE = new Color(128, 0, 255);
+	public final Color WHITE = new Color(255, 255, 255);
+
 	// SCREENS
 	public UI ui = new UI(this);
 
@@ -74,13 +82,14 @@ public class GamePanel extends JPanel implements Runnable {
 		setFullScreen();
 		this.setMinimumSize(new Dimension(160, 90)); // SETS MINIMUM SCREEN SIZE
 		this.setPreferredSize(new Dimension(800, 450)); // SETS SCREEN SIZE
-		this.setBackground(Color.black);
+		this.setBackground(Color.black); // DEFAULT BACKGROUND COLOR
 		this.setDoubleBuffered(true); // BETTER PERFORMANCE, LOWER FPS, TURN OFF IF YOU WANT TO FLEX FPS
-		this.setFocusable(true); // FOCUSES ON KEY INPUT
+		this.setFocusable(true); // FOCUSES ON LISTENERS
 	}
 
 	public void setupGame() { // SETS UP GAME INFORMATION
 		gameState = TITLE_STATE;
+		colorState = RED;
 		saveData.load();
 	}
 
@@ -182,9 +191,10 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 
 	public void write() { // CONSOLE
-		// CONSOLE TEXT FOR OBJECTS
+		// DEBUG TEXT DISPLAYED IN CONSOLE
 		player.write();
 		ui.write();
+		System.out.println();
 	}
 
 	public void setFullScreen() { // ENTERS FULLSCREEN

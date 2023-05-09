@@ -52,6 +52,7 @@ public class Fruit extends CuttableEntity {
 		this.hitbox = new Rectangle(x, y);
 	}
 
+	@Override
 	public void setDefaultValues() {
 		this.x = -100;
 		this.y = -100;
@@ -83,7 +84,7 @@ public class Fruit extends CuttableEntity {
 		if (!waited) {
 			if (timer == 3) {
 				waited = true;
-				ySpeed = (int) gp.tileHeight / 3;
+				ySpeed = gp.tileHeight / 3;
 				double randSpeed = rand.nextDouble(-2, 2);
 				ySpeed += randSpeed;
 				xSpeed = rand.nextDouble(-2, 2);
