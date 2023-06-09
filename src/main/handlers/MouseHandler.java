@@ -1,13 +1,15 @@
 package main.handlers;
 
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import main.window.GamePanel;
 
-public class MouseHandler implements MouseListener {
+public class MouseHandler extends MouseAdapter {
 
 	public GamePanel gp;
+
+	public boolean mouseClicked;
 
 	public MouseHandler(GamePanel gp) {
 		this.gp = gp;
@@ -15,20 +17,9 @@ public class MouseHandler implements MouseListener {
 		gp.addMouseListener(this);
 	}
 
-	public boolean mousePressed = false;
-
 	@Override
 	public void mouseClicked(MouseEvent e) {
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		mousePressed = true;
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		mousePressed = false;
+		mouseClicked = true;
 	}
 
 	@Override
@@ -38,5 +29,4 @@ public class MouseHandler implements MouseListener {
 	@Override
 	public void mouseExited(MouseEvent e) {
 	}
-
 }

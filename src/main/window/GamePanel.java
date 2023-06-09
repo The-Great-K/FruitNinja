@@ -54,12 +54,27 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int PLAY_STATE = 1;
 	public final int GAME_OVER_STATE = 2;
 
+	// SETTINGS STATES
+	public int settingsScreenState;
+	public final int DEFAULT_SETTINGS_STATE = 0;
+	public final int AUDIO_SETTINGS_STATE = 1;
+	public final int CONTROLS_SETTINGS_STATE = 2;
+	public final int VIDEO_SETTINGS_STATE = 3;
+	public final int STATS_SETTINGS_STATE = 4;
+
 	// COLOR THEMES
+	public Color[] colorList = new Color[10];
+	public int colorIndex = 0;
 	public Color colorState;
 	public final Color RED = new Color(255, 0, 0);
-	public final Color GREEN = new Color(0, 255, 0);
-	public final Color BLUE = new Color(0, 0, 255);
-	public final Color PURPLE = new Color(128, 0, 255);
+	public final Color ORANGE = new Color(191, 94, 10);
+	public final Color YELLOW = new Color(209, 181, 21);
+	public final Color LIME = new Color(0, 255, 0);
+	public final Color GREEN = new Color(6, 105, 11);
+	public final Color CYAN = new Color(0, 255, 255);
+	public final Color BLUE = new Color(24, 9, 153);
+	public final Color PURPLE = new Color(57, 2, 77);
+	public final Color PINK = new Color(235, 16, 202);
 	public final Color WHITE = new Color(255, 255, 255);
 
 	// SCREENS
@@ -89,8 +104,23 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public void setupGame() { // SETS UP GAME INFORMATION
 		gameState = TITLE_STATE;
-		colorState = RED;
+		settingsScreenState = DEFAULT_SETTINGS_STATE;
 		saveData.load();
+	}
+
+	public void setupColorList() {
+		colorIndex = 0;
+		colorList[0] = RED;
+		colorList[1] = ORANGE;
+		colorList[2] = YELLOW;
+		colorList[3] = LIME;
+		colorList[4] = GREEN;
+		colorList[5] = CYAN;
+		colorList[6] = BLUE;
+		colorList[7] = PURPLE;
+		colorList[8] = PINK;
+		colorList[9] = WHITE;
+		colorState = colorList[colorIndex];
 	}
 
 	public void startGameThread() { // STARTS GAME TIME
@@ -183,6 +213,9 @@ public class GamePanel extends JPanel implements Runnable {
 
 		Graphics2D g2 = (Graphics2D) g;
 
+		// SETS THE COLOR THEME
+		this.colorState = colorList[colorIndex];
+
 		// RENDERS FOR OBJECTS
 		ui.render(g2);
 		player.render(g2);
@@ -194,6 +227,7 @@ public class GamePanel extends JPanel implements Runnable {
 		// DEBUG TEXT DISPLAYED IN CONSOLE
 		player.write();
 		ui.write();
+		System.out.println(colorIndex);
 		System.out.println();
 	}
 

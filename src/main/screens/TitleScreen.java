@@ -65,7 +65,7 @@ public class TitleScreen {
 
 	public void render(Graphics2D g2) {
 		if (!waited) {
-			if (timer == 60) {
+			if (timer >= 60) {
 				waited = true;
 			}
 			timer++;
@@ -90,9 +90,14 @@ public class TitleScreen {
 
 			// MENU
 			// NEW GAME
-			if (gp.player.hitbox != null && this.mouseH.mousePressed) {
+			if (gp.player.hitbox != null && this.mouseH.mouseClicked) {
 				if (gameButton.isTouching(gp.player)) {
+					mouseH.mouseClicked = false;
+
 					gp.restartGame();
+
+					timer = 0;
+					waited = false;
 				}
 			}
 
@@ -101,31 +106,46 @@ public class TitleScreen {
 			// DONATE
 
 			// SETTINGS
-			if (gp.player.hitbox != null && mouseH.mousePressed) {
+			if (gp.player.hitbox != null && mouseH.mouseClicked) {
 				if (settingsButton.isTouching(gp.player)) {
+					mouseH.mouseClicked = false;
+
 					gp.showOptionsMenu = true;
+					gp.settingsScreenState = gp.DEFAULT_SETTINGS_STATE;
+
+					timer = 0;
+					waited = false;
 				}
 			}
 
 			// PERKS
-			if (gp.player.hitbox != null && mouseH.mousePressed) {
+			if (gp.player.hitbox != null && mouseH.mouseClicked) {
 				if (perksButton.isTouching(gp.player)) {
+					mouseH.mouseClicked = false;
+
 					gp.showOptionsMenu = true;
+
+					timer = 0;
+					waited = false;
 				}
 			}
 
 			// QUIT GAME
-			if (gp.player.hitbox != null && mouseH.mousePressed) {
+			if (gp.player.hitbox != null && mouseH.mouseClicked) {
 				if (quitButton.isTouching(gp.player)) {
-					System.exit(0);
+					mouseH.mouseClicked = false;
+
 					gp.saveData.save();
+					System.exit(0);
+
+					timer = 0;
+					waited = false;
 				}
 			}
 		}
 	}
 
 	public void write() {
-		System.out.println(gameButton.dimensionsToInt[0] + ", " + gameButton.dimensionsToInt[1]);
 	}
 
 	public int getXForCenteredText(String text) {

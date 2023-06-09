@@ -26,6 +26,7 @@ public class Main {
 
 		gamePanel.startGameThread(); // STARTS GAME TIME
 
+		gamePanel.setupColorList(); // SETS UP COLOR LIST
 		gamePanel.setupGame(); // SETS UP GAME
 	}
 

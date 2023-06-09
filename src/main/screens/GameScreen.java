@@ -83,15 +83,17 @@ public class GameScreen {
 //				g2.drawString(text, foodList.get(i).getX(), foodList.get(i).getY());
 		}
 
-		g2.setFont(g2.getFont().deriveFont(Font.BOLD, gp.tileHeight * 2));
+		if (!gp.showOptionsMenu) {
+			g2.setFont(g2.getFont().deriveFont(Font.BOLD, gp.tileHeight * 2));
 
-		text = "Score: " + Integer.toString(gp.score);
-		x = gp.tileWidth;
-		y = (int) g2.getFontMetrics().getStringBounds(text, g2).getHeight();
+			text = "Score: " + Integer.toString(gp.score);
+			x = gp.tileWidth;
+			y = (int) g2.getFontMetrics().getStringBounds(text, g2).getHeight();
 
-		g2.drawString(text, x, y);
+			g2.drawString(text, x, y);
+		}
 
-		tower.render(g2);
+//		tower.render(g2);
 	}
 
 	public void write() {

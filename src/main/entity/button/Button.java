@@ -1,5 +1,6 @@
 package main.entity.button;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -25,6 +26,8 @@ public class Button extends Entity {
 	public int textX, textY;
 
 	public int[] dimensionsToInt = new int[2];
+
+	private Color colorIdentifier = new Color(255, 0, 0);
 
 	public Button(GamePanel gp, String dimensions, String text) {
 		this.gp = gp;
@@ -78,6 +81,13 @@ public class Button extends Entity {
 
 		BufferedImage image = this.image;
 
+		for (int i = 0; i < image.getWidth(); i++) {
+			for (int j = 0; j < image.getHeight(); j++) {
+				if (image.getRGB(i, j) == this.colorIdentifier.getRGB()) {
+					image.setRGB(i, j, gp.colorState.getRGB());
+				}
+			}
+		}
 		g2.drawImage(image, x, y, width, height, null);
 
 		g2.setColor(gp.colorState);

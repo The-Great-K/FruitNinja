@@ -1,11 +1,11 @@
 package main.handlers.key;
 
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import main.window.GamePanel;
 
-public class GameKeyHandler implements KeyListener {
+public class GameKeyHandler extends KeyAdapter {
 
 	public GamePanel gp;
 
@@ -13,14 +13,6 @@ public class GameKeyHandler implements KeyListener {
 		this.gp = gp;
 
 		gp.addKeyListener(this);
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
 	}
 
 	@Override

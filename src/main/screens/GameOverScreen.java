@@ -16,6 +16,9 @@ public class GameOverScreen {
 	private int x, y;
 	private String text;
 
+	public int timer = 0;
+	public boolean waited = false;
+
 	private Button restartButton, homeButton;
 
 	public MouseHandler mouseH;
@@ -44,41 +47,58 @@ public class GameOverScreen {
 	}
 
 	public void render(Graphics2D g2) {
-		this.g2 = g2;
-
-		restartButton.render(g2);
-		homeButton.render(g2);
-
-		g2.setColor(gp.colorState);
-		g2.setFont(g2.getFont().deriveFont(Font.BOLD, gp.tileWidth * 3));
-
-		// GAME OVER TEXT
-		text = "Game Over!";
-		x = (int) getLocationForCenteredText(text).getX();
-		y = (int) getLocationForCenteredText(text).getY() - gp.tileHeight * 3;
-		g2.drawString(text, x, y);
-
-		// SCORES
-		g2.setFont(g2.getFont().deriveFont(Font.BOLD, gp.tileWidth * 1));
-
-		text = "Score: " + gp.score + "  High Score: " + gp.highScore;
-		x = (int) getLocationForCenteredText(text).getX();
-		y = (int) getLocationForCenteredText(text).getY();
-		g2.drawString(text, x, y);
-
-		// RESTART BUTTON
-		if (gp.player.hitbox != null && this.mouseH.mousePressed) {
-			if (restartButton.isTouching(gp.player)) {
-				gp.restartGame();
+		if (!waited) {
+			if (timer >= 60) {
+				waited = true;
 			}
-		}
+			timer++;
+		} else {
+			this.g2 = g2;
 
-		// HOME BUTTON
-		if (gp.player.hitbox != null && this.mouseH.mousePressed) {
-			if (homeButton.isTouching(gp.player)) {
-				gp.ui.titleScreen.waited = false;
-				gp.ui.titleScreen.timer = 0;
-				gp.gameState = gp.TITLE_STATE;
+			restartButton.render(g2);
+			homeButton.render(g2);
+
+			g2.setColor(gp.colorState);
+			g2.setFont(g2.getFont().deriveFont(Font.BOLD, gp.tileWidth * 3));
+
+			// GAME OVER TEXT
+			text = "Game Over!";
+			x = (int) getLocationForCenteredText(text).getX();
+			y = (int) getLocationForCenteredText(text).getY() - gp.tileHeight * 3;
+			g2.drawString(text, x, y);
+
+			// SCORES
+			g2.setFont(g2.getFont().deriveFont(Font.BOLD, gp.tileWidth * 1));
+
+			text = "Score: " + gp.score + "  High Score: " + gp.highScore;
+			x = (int) getLocationForCenteredText(text).getX();
+			y = (int) getLocationForCenteredText(text).getY();
+			g2.drawString(text, x, y);
+
+			// RESTART BUTTON
+			if (gp.player.hitbox != null && this.mouseH.mouseClicked) {
+				if (restartButton.isTouching(gp.player)) {
+					mouseH.mouseClicked = false;
+
+					gp.restartGame();
+
+					timer = 0;
+					waited = false;
+				}
+			}
+
+			// HOME BUTTON
+			if (gp.player.hitbox != null && this.mouseH.mouseClicked) {
+				if (homeButton.isTouching(gp.player)) {
+					mouseH.mouseClicked = false;
+
+					gp.ui.titleScreen.waited = false;
+					gp.ui.titleScreen.timer = 0;
+					gp.gameState = gp.TITLE_STATE;
+
+					timer = 0;
+					waited = false;
+				}
 			}
 		}
 	}

@@ -5,7 +5,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
-public class Entity {
+public class Entity extends Object {
 
 	public int x = -100;
 	public int y = -100;

@@ -1,11 +1,11 @@
 package main.handlers.key;
 
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import main.window.GamePanel;
 
-public class UniversalKeyHandler implements KeyListener {
+public class UniversalKeyHandler extends KeyAdapter {
 
 	public GamePanel gp;
 
@@ -22,17 +22,13 @@ public class UniversalKeyHandler implements KeyListener {
 	private boolean quitPrompt2 = false;
 
 	@Override
-	public void keyTyped(KeyEvent e) {
-	}
-
-	@Override
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
 
-		if (code == KeyEvent.VK_1) {
+		if (code == KeyEvent.VK_ESCAPE) {
 			quitPrompt1 = true;
 		}
-		if (code == KeyEvent.VK_2) {
+		if (code == KeyEvent.VK_SHIFT) {
 			quitPrompt2 = true;
 		}
 		if (quitPrompt1 && quitPrompt2) {
