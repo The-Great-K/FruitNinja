@@ -7,7 +7,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import main.entity.button.Button;
-import main.handlers.MouseHandler;
 import main.window.GamePanel;
 
 public class TitleScreen {
@@ -25,15 +24,18 @@ public class TitleScreen {
 
 	private Button gameButton, settingsButton, perksButton, quitButton;
 
-	private MouseHandler mouseH;
-
 	public TitleScreen(GamePanel gp) {
 		this.gp = gp;
+
 		gameButton = new Button(gp, "16x2", "NEW GAME");
 		settingsButton = new Button(gp, "8x2", "SETTINGS");
 		perksButton = new Button(gp, "8x2", "PERKS");
 		quitButton = new Button(gp, "16x2", "QUIT");
-		this.mouseH = new MouseHandler(this.gp);
+
+		gp.buttonList.add(gameButton);
+		gp.buttonList.add(settingsButton);
+		gp.buttonList.add(perksButton);
+		gp.buttonList.add(quitButton);
 	}
 
 	public void update() {
@@ -90,9 +92,9 @@ public class TitleScreen {
 
 			// MENU
 			// NEW GAME
-			if (gp.player.hitbox != null && this.mouseH.mouseClicked) {
+			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
 				if (gameButton.isTouching(gp.player)) {
-					mouseH.mouseClicked = false;
+					gp.mouseH.mouseClicked = false;
 
 					gp.restartGame();
 
@@ -106,9 +108,9 @@ public class TitleScreen {
 			// DONATE
 
 			// SETTINGS
-			if (gp.player.hitbox != null && mouseH.mouseClicked) {
+			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
 				if (settingsButton.isTouching(gp.player)) {
-					mouseH.mouseClicked = false;
+					gp.mouseH.mouseClicked = false;
 
 					gp.showOptionsMenu = true;
 					gp.settingsScreenState = gp.DEFAULT_SETTINGS_STATE;
@@ -119,9 +121,9 @@ public class TitleScreen {
 			}
 
 			// PERKS
-			if (gp.player.hitbox != null && mouseH.mouseClicked) {
+			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
 				if (perksButton.isTouching(gp.player)) {
-					mouseH.mouseClicked = false;
+					gp.mouseH.mouseClicked = false;
 
 					gp.showOptionsMenu = true;
 
@@ -131,9 +133,9 @@ public class TitleScreen {
 			}
 
 			// QUIT GAME
-			if (gp.player.hitbox != null && mouseH.mouseClicked) {
+			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
 				if (quitButton.isTouching(gp.player)) {
-					mouseH.mouseClicked = false;
+					gp.mouseH.mouseClicked = false;
 
 					gp.saveData.save();
 					System.exit(0);

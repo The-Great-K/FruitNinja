@@ -4,7 +4,6 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import main.entity.button.Button;
-import main.handlers.MouseHandler;
 import main.window.GamePanel;
 
 public class SettingsScreen {
@@ -22,17 +21,22 @@ public class SettingsScreen {
 
 	private Button backButton, soundButton, controlsButton, videoButton, statisticsButton, quitButton;
 
-	private MouseHandler mouseH;
-
 	public SettingsScreen(GamePanel gp) {
 		this.gp = gp;
+
 		backButton = new Button(gp, "16x2", "BACK");
 		soundButton = new Button(gp, "8x2", "AUDIO");
 		controlsButton = new Button(gp, "8x2", "CONTROLS");
 		videoButton = new Button(gp, "8x2", "VIDEO");
 		statisticsButton = new Button(gp, "8x2", "STATS");
 		quitButton = new Button(gp, "16x2", "QUIT");
-		this.mouseH = new MouseHandler(gp);
+
+		gp.buttonList.add(backButton);
+		gp.buttonList.add(soundButton);
+		gp.buttonList.add(controlsButton);
+		gp.buttonList.add(videoButton);
+		gp.buttonList.add(statisticsButton);
+		gp.buttonList.add(quitButton);
 	}
 
 	public void update() {
@@ -90,9 +94,9 @@ public class SettingsScreen {
 			statisticsButton.render(g2);
 			quitButton.render(g2);
 
-			if (gp.player.hitbox != null && mouseH.mouseClicked) {
+			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
 				if (backButton.isTouching(gp.player)) {
-					mouseH.mouseClicked = false;
+					gp.mouseH.mouseClicked = false;
 
 					gp.showOptionsMenu = false;
 
@@ -100,25 +104,25 @@ public class SettingsScreen {
 					waited = false;
 				}
 			}
-			if (gp.player.hitbox != null && mouseH.mouseClicked) {
+			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
 				if (soundButton.isTouching(gp.player)) {
-					mouseH.mouseClicked = false;
+					gp.mouseH.mouseClicked = false;
 
 					timer = 0;
 					waited = false;
 				}
 			}
-			if (gp.player.hitbox != null && mouseH.mouseClicked) {
+			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
 				if (controlsButton.isTouching(gp.player)) {
-					mouseH.mouseClicked = false;
+					gp.mouseH.mouseClicked = false;
 
 					timer = 0;
 					waited = false;
 				}
 			}
-			if (gp.player.hitbox != null && mouseH.mouseClicked) {
+			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
 				if (videoButton.isTouching(gp.player)) {
-					mouseH.mouseClicked = false;
+					gp.mouseH.mouseClicked = false;
 
 					gp.settingsScreenState = gp.VIDEO_SETTINGS_STATE;
 
@@ -126,18 +130,18 @@ public class SettingsScreen {
 					waited = false;
 				}
 			}
-			if (gp.player.hitbox != null && mouseH.mouseClicked) {
+			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
 				if (statisticsButton.isTouching(gp.player)) {
-					mouseH.mouseClicked = false;
+					gp.mouseH.mouseClicked = false;
 
 					timer = 0;
 					waited = false;
 
 				}
 			}
-			if (gp.player.hitbox != null && mouseH.mouseClicked) {
+			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
 				if (quitButton.isTouching(gp.player)) {
-					mouseH.mouseClicked = false;
+					gp.mouseH.mouseClicked = false;
 
 					gp.saveData.save();
 					if (gp.gameState == gp.TITLE_STATE) {

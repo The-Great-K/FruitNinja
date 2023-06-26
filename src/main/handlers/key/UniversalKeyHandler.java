@@ -15,8 +15,9 @@ public class UniversalKeyHandler extends KeyAdapter {
 		gp.addKeyListener(this);
 	}
 
-	public boolean quit = false;
 	public boolean fullScreen = false;
+
+	public boolean quit = false;
 
 	private boolean quitPrompt1 = false;
 	private boolean quitPrompt2 = false;
@@ -42,11 +43,7 @@ public class UniversalKeyHandler extends KeyAdapter {
 		int code = e.getKeyCode();
 
 		if (code == KeyEvent.VK_F11) {
-			if (!fullScreen) {
-				fullScreen = true;
-			} else {
-				fullScreen = false;
-			}
+			fullScreen = !fullScreen;
 		}
 	}
 

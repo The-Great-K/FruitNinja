@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,6 +15,7 @@ import javax.swing.JPanel;
 import data.SaveData;
 import main.Main;
 import main.entity.Player;
+import main.entity.button.Button;
 import main.handlers.MouseHandler;
 import main.handlers.WindowHandler;
 import main.handlers.key.GameKeyHandler;
@@ -36,16 +38,18 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int SCREEN_TILE_COL = 18; // TILES PER COLUMN
 	public int tileWidth, tileHeight;
 
-	public boolean fullScreen = false; // IS FULLSCREEN
+	public boolean fullScreen = true; // IS FULLSCREEN
 
 	public final int TPS = 60; // TICKS PER SECOND
 
-	public UniversalKeyHandler unversalKeyH = new UniversalKeyHandler(this); // UNIVERSAL KEY CONTROL
+	public UniversalKeyHandler universalKeyH = new UniversalKeyHandler(this); // UNIVERSAL KEY CONTROL
 	public GameKeyHandler gameKeyH = new GameKeyHandler(this); // GAME KEY CONTROL
 	public MouseHandler mouseH = new MouseHandler(this); // MOUSE CONTROL
 	public WindowHandler windowH = new WindowHandler(this); // WINDOW CONTROL
 
 	public Thread gameThread; // CONTROLS TIME
+
+	public ArrayList<Button> buttonList = new ArrayList<>(); // LIST OF BUTTONS FOR MOUSE HANDLER
 
 	// GAME STATES
 	public int gameState;
@@ -191,8 +195,8 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 
 		// RUNS FULLSCREEN
-		if (unversalKeyH.fullScreen != fullScreen) {
-			if (unversalKeyH.fullScreen) {
+		if (universalKeyH.fullScreen != fullScreen) {
+			if (universalKeyH.fullScreen) {
 				setFullScreen();
 			} else {
 				exitFullScreen();
@@ -200,7 +204,7 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 
 		// QUIT SWITCH
-		if (unversalKeyH.quit) {
+		if (universalKeyH.quit) {
 			System.exit(0);
 		}
 
@@ -251,6 +255,7 @@ public class GamePanel extends JPanel implements Runnable {
 		screenHeight = Main.window.getHeight();
 
 		fullScreen = true;
+		universalKeyH.fullScreen = true;
 	}
 
 	public void exitFullScreen() { // EXITS FULLSCREEN
@@ -267,6 +272,7 @@ public class GamePanel extends JPanel implements Runnable {
 		Main.window.setVisible(true); // CAN YOU SEE IT?
 
 		fullScreen = false;
+		universalKeyH.fullScreen = false;
 	}
 
 	public void restartGame() {

@@ -11,6 +11,8 @@ public class MouseHandler extends MouseAdapter {
 
 	public boolean mouseClicked;
 
+	public int timer = 0;
+
 	public MouseHandler(GamePanel gp) {
 		this.gp = gp;
 
@@ -18,15 +20,19 @@ public class MouseHandler extends MouseAdapter {
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		mouseClicked = true;
+	public void mousePressed(MouseEvent e) {
+		for (int i = 0; i < gp.buttonList.size(); i++) {
+			if (gp.buttonList.get(i).hitbox != null) {
+				if (gp.player.isTouching(gp.buttonList.get(i))) {
+					mouseClicked = true;
+					timer++;
+				}
+			}
+		}
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
+	public void mouseReleased(MouseEvent e) {
+		mouseClicked = false;
 	}
 }

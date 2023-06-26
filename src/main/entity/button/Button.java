@@ -72,6 +72,14 @@ public class Button extends Entity {
 		}
 	}
 
+	public String getText() {
+		return this.text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
 	public void update() {
 		this.hitbox = new Rectangle(this.x, this.y, this.width, this.height);
 	}
@@ -89,6 +97,8 @@ public class Button extends Entity {
 			}
 		}
 		g2.drawImage(image, x, y, width, height, null);
+
+		this.colorIdentifier = gp.colorState;
 
 		g2.setColor(gp.colorState);
 		double temp = gp.tileWidth * 1.25;

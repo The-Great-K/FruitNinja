@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 
 import main.entity.button.Button;
-import main.handlers.MouseHandler;
 import main.window.GamePanel;
 
 public class GameOverScreen {
@@ -21,13 +20,14 @@ public class GameOverScreen {
 
 	private Button restartButton, homeButton;
 
-	public MouseHandler mouseH;
-
 	public GameOverScreen(GamePanel gp) {
 		this.gp = gp;
+
 		restartButton = new Button(gp, "12x2", "RESTART");
 		homeButton = new Button(gp, "12x2", "HOME");
-		this.mouseH = new MouseHandler(this.gp);
+
+		gp.buttonList.add(restartButton);
+		gp.buttonList.add(homeButton);
 	}
 
 	public void update() {
@@ -76,9 +76,9 @@ public class GameOverScreen {
 			g2.drawString(text, x, y);
 
 			// RESTART BUTTON
-			if (gp.player.hitbox != null && this.mouseH.mouseClicked) {
+			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
 				if (restartButton.isTouching(gp.player)) {
-					mouseH.mouseClicked = false;
+					gp.mouseH.mouseClicked = false;
 
 					gp.restartGame();
 
@@ -88,9 +88,9 @@ public class GameOverScreen {
 			}
 
 			// HOME BUTTON
-			if (gp.player.hitbox != null && this.mouseH.mouseClicked) {
+			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
 				if (homeButton.isTouching(gp.player)) {
-					mouseH.mouseClicked = false;
+					gp.mouseH.mouseClicked = false;
 
 					gp.ui.titleScreen.waited = false;
 					gp.ui.titleScreen.timer = 0;
