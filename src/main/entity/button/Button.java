@@ -106,10 +106,10 @@ public class Button extends Entity {
 		this.textX = getXForCenteredText(text);
 		this.textY = getYForCenteredText(text);
 		g2.drawString(this.text, this.textX, this.textY);
-//		if (this.hitboxOn) {
-//			g2.setColor(Color.red);
-//			g2.drawRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
-//		}
+		if (this.hitboxOn) {
+			g2.setColor(Color.red);
+			g2.drawRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
+		}
 	}
 
 	public int getXForCenteredText(String text) {

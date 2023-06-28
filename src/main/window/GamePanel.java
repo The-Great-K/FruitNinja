@@ -38,9 +38,14 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int SCREEN_TILE_COL = 18; // TILES PER COLUMN
 	public int tileWidth, tileHeight;
 
-	public boolean fullScreen = true; // IS FULLSCREEN
+	public boolean fullScreen = false; // IS FULLSCREEN
 
 	public final int TPS = 60; // TICKS PER SECOND
+
+	// SAVE AND LOAD
+	public SaveData saveData = new SaveData(this);
+	public int saveTimer = 0;
+	public final int SAVE_TIMER_MAX = TPS * 300;
 
 	public UniversalKeyHandler universalKeyH = new UniversalKeyHandler(this); // UNIVERSAL KEY CONTROL
 	public GameKeyHandler gameKeyH = new GameKeyHandler(this); // GAME KEY CONTROL
@@ -91,11 +96,6 @@ public class GamePanel extends JPanel implements Runnable {
 	public int score = 0;
 	public int highScore = 0;
 	public int strikes = 0;
-
-	// SAVE AND LOAD
-	public SaveData saveData = new SaveData(this);
-	public int saveTimer = 0;
-	public final int SAVE_TIMER_MAX = TPS * 300;
 
 	public GamePanel() {
 		setFullScreen();

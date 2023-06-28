@@ -16,13 +16,13 @@ public class Main {
 		window.setUndecorated(false); // WINDOW BUTTON OFF
 		window.setTitle("Fruit Ninja"); // WINDOW TITLE
 
-		GamePanel gamePanel = new GamePanel(); // THE PANEL
-		window.add(gamePanel); // ADDS THE PANEL TO THE WINDOW
-
 		window.pack(); // SETS THE WINDOW SIZE TO THE PANEL SIZE
 
 		window.setLocationRelativeTo(null); // PREFFERED LOCATION TO SHOW UP?
 		window.setVisible(true); // CAN YOU SEE IT?
+
+		GamePanel gamePanel = new GamePanel(); // THE PANEL
+		window.add(gamePanel); // ADDS THE PANEL TO THE WINDOW
 
 		gamePanel.startGameThread(); // STARTS GAME TIME
 
