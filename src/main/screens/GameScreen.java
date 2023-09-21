@@ -10,6 +10,7 @@ import main.entity.cuttable.CuttableEntity;
 import main.entity.cuttable.Fruit;
 import main.entity.tower.Tower;
 import main.handlers.key.GameKeyHandler;
+import main.maps.MapManager;
 import main.window.GamePanel;
 
 public class GameScreen {
@@ -21,6 +22,10 @@ public class GameScreen {
 
 	private Random rand = new Random();
 
+	public String bgFilePath;
+
+	public MapManager mapM;
+
 	public ArrayList<CuttableEntity> foodList = new ArrayList<>();
 
 	private int timer = 0;
@@ -31,6 +36,8 @@ public class GameScreen {
 
 	public GameScreen(GamePanel gp) {
 		this.gp = gp;
+
+		mapM = new MapManager(this.gp);
 
 		tower = new Tower(this.gp);
 	}
@@ -69,18 +76,18 @@ public class GameScreen {
 	}
 
 	public void render(Graphics2D g2) {
+		this.g2 = g2;
+
 		String text;
-		int x;
-		int y;
+		int x = 0;
+		int y = 0;
 
 		g2.setColor(gp.colorState);
 
+		// mapM.render(g2);
+
 		for (int i = 0; i < foodList.size(); i++) {
 			foodList.get(i).render(g2);
-
-//				text = Integer.toString(i);
-//
-//				g2.drawString(text, foodList.get(i).getX(), foodList.get(i).getY());
 		}
 
 		if (!gp.showOptionsMenu) {
@@ -93,11 +100,11 @@ public class GameScreen {
 			g2.drawString(text, x, y);
 		}
 
-//		tower.render(g2);
+		// tower.render(g2);
 	}
 
 	public void write() {
-		System.out.println("Paused: " + gp.showOptionsMenu);
+		System.out.println(foodList.size());
 	}
 
 }

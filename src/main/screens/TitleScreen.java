@@ -22,7 +22,12 @@ public class TitleScreen {
 	public int timer = 0;
 	public boolean waited = false;
 
-	private Button gameButton, settingsButton, perksButton, quitButton;
+	public Button gameButton, settingsButton, perksButton, quitButton;
+
+	private boolean gameButtonChecker = false;
+	private boolean settingsButtonChecker = false;
+	private boolean perksButtonChecker = false;
+	private boolean quitButtonChecker = false;
 
 	public TitleScreen(GamePanel gp) {
 		this.gp = gp;
@@ -92,14 +97,26 @@ public class TitleScreen {
 
 			// MENU
 			// NEW GAME
-			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
+			if (gp.player.hitbox != null) {
 				if (gameButton.isTouching(gp.player)) {
-					gp.mouseH.mouseClicked = false;
+					if (!gameButtonChecker) {
+						Button.buttonNum--;
+						gameButtonChecker = true;
+					}
+					if (gp.mouseH.mouseClicked) {
+						Button.buttonNum++;
+						gameButtonChecker = false;
 
-					gp.restartGame();
+						gp.mouseH.mouseClicked = false;
 
-					timer = 0;
-					waited = false;
+						gp.restartGame();
+
+						timer = 0;
+						waited = false;
+					}
+				} else if (gameButtonChecker) {
+					Button.buttonNum++;
+					gameButtonChecker = false;
 				}
 			}
 
@@ -108,40 +125,76 @@ public class TitleScreen {
 			// DONATE
 
 			// SETTINGS
-			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
+			if (gp.player.hitbox != null) {
 				if (settingsButton.isTouching(gp.player)) {
-					gp.mouseH.mouseClicked = false;
+					if (!settingsButtonChecker) {
+						Button.buttonNum--;
+						settingsButtonChecker = true;
+					}
+					if (gp.mouseH.mouseClicked) {
+						Button.buttonNum++;
+						settingsButtonChecker = false;
 
-					gp.showOptionsMenu = true;
-					gp.settingsScreenState = gp.DEFAULT_SETTINGS_STATE;
+						gp.mouseH.mouseClicked = false;
 
-					timer = 0;
-					waited = false;
+						gp.showOptionsMenu = true;
+						gp.settingsScreenState = gp.DEFAULT_SETTINGS_STATE;
+
+						timer = 0;
+						waited = false;
+					}
+				} else if (settingsButtonChecker) {
+					Button.buttonNum++;
+					settingsButtonChecker = false;
 				}
 			}
 
 			// PERKS
-			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
+			if (gp.player.hitbox != null) {
 				if (perksButton.isTouching(gp.player)) {
-					gp.mouseH.mouseClicked = false;
+					if (!perksButtonChecker) {
+						Button.buttonNum--;
+						perksButtonChecker = true;
+					}
+					if (gp.mouseH.mouseClicked) {
+						Button.buttonNum++;
+						perksButtonChecker = false;
 
-					gp.showOptionsMenu = true;
+						gp.mouseH.mouseClicked = false;
 
-					timer = 0;
-					waited = false;
+						gp.showOptionsMenu = true;
+
+						timer = 0;
+						waited = false;
+					}
+				} else if (perksButtonChecker) {
+					Button.buttonNum++;
+					perksButtonChecker = false;
 				}
 			}
 
 			// QUIT GAME
-			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
+			if (gp.player.hitbox != null) {
 				if (quitButton.isTouching(gp.player)) {
-					gp.mouseH.mouseClicked = false;
+					if (!quitButtonChecker) {
+						Button.buttonNum--;
+						quitButtonChecker = true;
+					}
+					if (gp.mouseH.mouseClicked) {
+						Button.buttonNum++;
+						quitButtonChecker = false;
 
-					gp.saveData.save();
-					System.exit(0);
+						gp.mouseH.mouseClicked = false;
 
-					timer = 0;
-					waited = false;
+						gp.saveData.save();
+						System.exit(0);
+
+						timer = 0;
+						waited = false;
+					}
+				} else if (quitButtonChecker) {
+					Button.buttonNum++;
+					quitButtonChecker = false;
 				}
 			}
 		}

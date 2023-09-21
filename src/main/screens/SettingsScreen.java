@@ -19,7 +19,14 @@ public class SettingsScreen {
 	public int timer = 0;
 	public boolean waited = false;
 
-	private Button backButton, soundButton, controlsButton, videoButton, statisticsButton, quitButton;
+	public Button backButton, soundButton, controlsButton, videoButton, statisticsButton, quitButton;
+
+	private boolean backButtonChecker = false;
+	private boolean soundButtonChecker = false;
+	private boolean controlsButtonChecker = false;
+	private boolean videoButtonChecker = false;
+	private boolean statisticsButtonChecker = false;
+	private boolean quitButtonChecker = false;
 
 	public SettingsScreen(GamePanel gp) {
 		this.gp = gp;
@@ -94,66 +101,122 @@ public class SettingsScreen {
 			statisticsButton.render(g2);
 			quitButton.render(g2);
 
-			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
+			if (gp.player.hitbox != null) {
 				if (backButton.isTouching(gp.player)) {
-					gp.mouseH.mouseClicked = false;
+					if (!backButtonChecker) {
+						Button.buttonNum--;
+						backButtonChecker = true;
+					}
+					if (gp.mouseH.mouseClicked) {
+						gp.mouseH.mouseClicked = false;
 
-					gp.showOptionsMenu = false;
+						gp.showOptionsMenu = false;
 
-					timer = 0;
-					waited = false;
+						timer = 0;
+						waited = false;
+					}
+				} else if (backButtonChecker) {
+					Button.buttonNum++;
+					backButtonChecker = false;
 				}
 			}
-			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
+			if (gp.player.hitbox != null) {
 				if (soundButton.isTouching(gp.player)) {
-					gp.mouseH.mouseClicked = false;
+					if (!soundButtonChecker) {
+						Button.buttonNum--;
+						soundButtonChecker = true;
+					}
+					if (gp.mouseH.mouseClicked) {
+						gp.mouseH.mouseClicked = false;
 
-					timer = 0;
-					waited = false;
+						timer = 0;
+						waited = false;
+					}
+				} else if (soundButtonChecker) {
+					Button.buttonNum++;
+					soundButtonChecker = false;
 				}
 			}
-			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
+			if (gp.player.hitbox != null) {
 				if (controlsButton.isTouching(gp.player)) {
-					gp.mouseH.mouseClicked = false;
+					if (!controlsButtonChecker) {
+						Button.buttonNum--;
+						controlsButtonChecker = true;
+					}
+					if (gp.mouseH.mouseClicked) {
+						gp.mouseH.mouseClicked = false;
 
-					timer = 0;
-					waited = false;
+						timer = 0;
+						waited = false;
+					}
+				} else if (controlsButtonChecker) {
+					Button.buttonNum++;
+					controlsButtonChecker = false;
 				}
 			}
-			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
+			if (gp.player.hitbox != null) {
 				if (videoButton.isTouching(gp.player)) {
-					gp.mouseH.mouseClicked = false;
+					if (!videoButtonChecker) {
+						Button.buttonNum--;
+						videoButtonChecker = true;
+					}
+					if (gp.mouseH.mouseClicked) {
+						gp.mouseH.mouseClicked = false;
 
-					gp.settingsScreenState = gp.VIDEO_SETTINGS_STATE;
+						gp.settingsScreenState = gp.VIDEO_SETTINGS_STATE;
 
-					timer = 0;
-					waited = false;
+						timer = 0;
+						waited = false;
+					}
+				} else if (videoButtonChecker) {
+					Button.buttonNum++;
+					videoButtonChecker = false;
 				}
 			}
-			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
+			if (gp.player.hitbox != null) {
 				if (statisticsButton.isTouching(gp.player)) {
-					gp.mouseH.mouseClicked = false;
+					if (!statisticsButtonChecker) {
+						Button.buttonNum--;
+						statisticsButtonChecker = true;
+					}
+					if (gp.mouseH.mouseClicked) {
+						Button.buttonNum++;
+						statisticsButtonChecker = false;
 
-					timer = 0;
-					waited = false;
+						gp.mouseH.mouseClicked = false;
 
+						timer = 0;
+						waited = false;
+					}
+				} else if (statisticsButtonChecker) {
+					Button.buttonNum++;
+					statisticsButtonChecker = false;
 				}
 			}
-			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
+			if (gp.player.hitbox != null) {
 				if (quitButton.isTouching(gp.player)) {
-					gp.mouseH.mouseClicked = false;
-
-					gp.saveData.save();
-					if (gp.gameState == gp.TITLE_STATE) {
-						System.exit(0);
+					if (!quitButtonChecker) {
+						Button.buttonNum--;
+						quitButtonChecker = true;
 					}
-					if (gp.gameState == gp.PLAY_STATE) {
-						gp.gameState = gp.TITLE_STATE;
-						gp.settingsScreenState = gp.DEFAULT_SETTINGS_STATE;
-					}
+					if (gp.mouseH.mouseClicked) {
+						gp.mouseH.mouseClicked = false;
 
-					timer = 0;
-					waited = false;
+						gp.saveData.save();
+						if (gp.gameState == gp.TITLE_STATE) {
+							System.exit(0);
+						}
+						if (gp.gameState == gp.PLAY_STATE) {
+							gp.gameState = gp.TITLE_STATE;
+							gp.settingsScreenState = gp.DEFAULT_SETTINGS_STATE;
+						}
+
+						timer = 0;
+						waited = false;
+					}
+				} else if (quitButtonChecker) {
+					Button.buttonNum++;
+					quitButtonChecker = false;
 				}
 			}
 

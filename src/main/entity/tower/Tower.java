@@ -32,7 +32,7 @@ public class Tower extends Entity {
 
 	public void setTowerImage() {
 		try {
-			image = ImageIO.read(getClass().getResourceAsStream("/textures/entity/tower/tower.png"));
+			image = ImageIO.read(getClass().getResourceAsStream("/textures/entity/tower/main/main_tower_01.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -45,7 +45,7 @@ public class Tower extends Entity {
 		this.g2 = g2;
 		this.width = gp.tileWidth * 3;
 		this.height = gp.tileHeight * 3;
-		this.x = gp.screenWidth - this.width - gp.tileWidth * 2;
+		this.x = gp.screenWidth - this.width - gp.tileWidth * 1;
 		this.y = gp.screenHeight / 2 - this.width / 2;
 
 		g2.drawImage(this.image, x, y, width, height, null);

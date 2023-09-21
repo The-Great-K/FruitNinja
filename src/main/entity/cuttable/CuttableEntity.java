@@ -53,10 +53,16 @@ public class CuttableEntity extends Entity {
 		if (!waited) {
 			if (timer == 3) {
 				waited = true;
-				ySpeed = gp.tileHeight / 3;
-				double randSpeed = rand.nextDouble(-2, 2);
+				ySpeed = gp.tileHeight * 0.25;
+				boolean isAbsolute = rand.nextBoolean();
+				double randSpeed = rand.nextGaussian();
+				if (!isAbsolute)
+					randSpeed = -randSpeed;
 				ySpeed += randSpeed;
-				xSpeed = rand.nextDouble(-2, 2);
+				boolean isAbsolute0 = rand.nextBoolean();
+				xSpeed = rand.nextGaussian();
+				if (!isAbsolute0)
+					xSpeed = -xSpeed;
 			}
 		} else {
 			if (gp.player.hitbox != null) {

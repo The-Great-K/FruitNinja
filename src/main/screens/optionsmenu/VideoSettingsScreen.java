@@ -19,9 +19,11 @@ public class VideoSettingsScreen {
 	public int timer = 0;
 	public boolean waited = false;
 
-	private Button colorButton;
-	private Button fullScreenButton;
-	private Button backButton;
+	public Button colorButton, fullScreenButton, backButton;
+
+	private boolean colorButtonChecker = false;
+	private boolean fullScreenButtonChecker = false;
+	private boolean backButtonChecker = false;
 
 	private int colorIndex = 0;
 
@@ -75,35 +77,71 @@ public class VideoSettingsScreen {
 				fullScreenButton.setText("FULLSCREEN: OFF");
 			}
 
-			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
+			if (gp.player.hitbox != null) {
 				if (colorButton.isTouching(gp.player)) {
-					gp.mouseH.mouseClicked = false;
-
-					if (gp.colorIndex + 1 >= 10) {
-						gp.colorIndex = 0;
-					} else {
-						gp.colorIndex += 1;
+					if (!colorButtonChecker) {
+						Button.buttonNum--;
+						colorButtonChecker = true;
 					}
+					if (gp.mouseH.mouseClicked) {
+						Button.buttonNum++;
+						colorButtonChecker = false;
+
+						gp.mouseH.mouseClicked = false;
+
+						if (gp.colorIndex + 1 >= 10) {
+							gp.colorIndex = 0;
+						} else {
+							gp.colorIndex += 1;
+						}
+					}
+				} else if (colorButtonChecker) {
+					Button.buttonNum++;
+					colorButtonChecker = false;
 				}
 			}
 
-			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
+			if (gp.player.hitbox != null) {
 				if (fullScreenButton.isTouching(gp.player)) {
-					gp.mouseH.mouseClicked = false;
-
-					if (gp.fullScreen) {
-						gp.exitFullScreen();
-					} else {
-						gp.setFullScreen();
+					if (!fullScreenButtonChecker) {
+						Button.buttonNum--;
+						fullScreenButtonChecker = true;
 					}
+					if (gp.mouseH.mouseClicked) {
+						Button.buttonNum++;
+						fullScreenButtonChecker = false;
+
+						gp.mouseH.mouseClicked = false;
+
+						if (gp.fullScreen) {
+							gp.exitFullScreen();
+						} else {
+							gp.setFullScreen();
+						}
+					}
+				} else if (fullScreenButtonChecker) {
+					Button.buttonNum++;
+					fullScreenButtonChecker = false;
 				}
 			}
 
-			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
+			if (gp.player.hitbox != null) {
 				if (backButton.isTouching(gp.player)) {
-					gp.mouseH.mouseClicked = false;
+					if (!backButtonChecker) {
+						Button.buttonNum--;
+						backButtonChecker = true;
+					}
+					if (gp.mouseH.mouseClicked) {
+						Button.buttonNum++;
+						backButtonChecker = false;
 
-					gp.settingsScreenState = gp.DEFAULT_SETTINGS_STATE;
+						gp.mouseH.mouseClicked = false;
+
+						gp.settingsScreenState = gp.DEFAULT_SETTINGS_STATE;
+					}
+				} else if (backButtonChecker) {
+					Button.buttonNum++;
+					backButtonChecker = false;
 				}
 			}
 		}

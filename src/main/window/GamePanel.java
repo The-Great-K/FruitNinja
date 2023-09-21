@@ -1,6 +1,7 @@
 package main.window;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -44,7 +45,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	// SAVE AND LOAD
 	public SaveData saveData = new SaveData(this);
-	public int saveTimer = 0;
+	public int saveTimer = TPS * 299;
 	public final int SAVE_TIMER_MAX = TPS * 300;
 
 	public UniversalKeyHandler universalKeyH = new UniversalKeyHandler(this); // UNIVERSAL KEY CONTROL
@@ -54,7 +55,8 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public Thread gameThread; // CONTROLS TIME
 
-	public ArrayList<Button> buttonList = new ArrayList<>(); // LIST OF BUTTONS FOR MOUSE HANDLER
+	// BUTTONS
+	public ArrayList<Button> buttonList = new ArrayList<>();
 
 	// GAME STATES
 	public int gameState;
@@ -89,6 +91,10 @@ public class GamePanel extends JPanel implements Runnable {
 	// SCREENS
 	public UI ui = new UI(this);
 
+	// CURSORS
+	public Cursor defaultCursor = new Cursor(0);
+	public Cursor selectCursor = new Cursor(12);
+
 	// OBJECTS
 	public Player player = new Player(this);
 
@@ -109,6 +115,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public void setupGame() { // SETS UP GAME INFORMATION
 		gameState = TITLE_STATE;
 		settingsScreenState = DEFAULT_SETTINGS_STATE;
+		ui.preInit();
 		saveData.load();
 	}
 
@@ -171,6 +178,12 @@ public class GamePanel extends JPanel implements Runnable {
 		// RUNS THE LISTENERS
 		requestFocus(true);
 
+		if (Button.buttonNum < Button.realButtonNum) {
+			setCursor(selectCursor);
+		} else {
+			setCursor(defaultCursor);
+		}
+
 		// UPDATES FOR OBJECTS
 		player.update();
 		ui.update();
@@ -231,7 +244,7 @@ public class GamePanel extends JPanel implements Runnable {
 		// DEBUG TEXT DISPLAYED IN CONSOLE
 		player.write();
 		ui.write();
-		System.out.println(colorIndex);
+		System.out.println("Button Count: " + Button.buttonNum);
 		System.out.println();
 	}
 
@@ -264,7 +277,6 @@ public class GamePanel extends JPanel implements Runnable {
 		Main.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // HOW TO CLOSE
 		Main.window.setResizable(true); // RESIZABLE?
 		Main.window.setUndecorated(false);
-		Main.window.setTitle("Fruit Ninja"); // WINDOW TITLE
 
 		Main.window.pack(); // SETS THE WINDOW SIZE TO THE PANEL SIZE
 

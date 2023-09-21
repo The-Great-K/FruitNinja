@@ -18,7 +18,10 @@ public class GameOverScreen {
 	public int timer = 0;
 	public boolean waited = false;
 
-	private Button restartButton, homeButton;
+	public Button restartButton, homeButton;
+
+	private boolean restartButtonChecker = false;
+	private boolean homeButtonChecker = false;
 
 	public GameOverScreen(GamePanel gp) {
 		this.gp = gp;
@@ -76,29 +79,53 @@ public class GameOverScreen {
 			g2.drawString(text, x, y);
 
 			// RESTART BUTTON
-			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
+			if (gp.player.hitbox != null) {
 				if (restartButton.isTouching(gp.player)) {
-					gp.mouseH.mouseClicked = false;
+					if (!restartButtonChecker) {
+						Button.buttonNum--;
+						restartButtonChecker = true;
+					}
+					if (gp.mouseH.mouseClicked) {
+						Button.buttonNum++;
+						restartButtonChecker = false;
 
-					gp.restartGame();
+						gp.mouseH.mouseClicked = false;
 
-					timer = 0;
-					waited = false;
+						gp.restartGame();
+
+						timer = 0;
+						waited = false;
+					}
+				} else if (restartButtonChecker) {
+					Button.buttonNum++;
+					restartButtonChecker = false;
 				}
 			}
 
 			// HOME BUTTON
-			if (gp.player.hitbox != null && gp.mouseH.mouseClicked) {
+			if (gp.player.hitbox != null) {
 				if (homeButton.isTouching(gp.player)) {
-					gp.mouseH.mouseClicked = false;
+					if (!homeButtonChecker) {
+						Button.buttonNum--;
+						homeButtonChecker = true;
+					}
+					if (gp.mouseH.mouseClicked) {
+						Button.buttonNum++;
+						homeButtonChecker = false;
 
-					gp.ui.titleScreen.waited = false;
-					gp.ui.titleScreen.timer = 0;
-					gp.gameState = gp.TITLE_STATE;
+						gp.mouseH.mouseClicked = false;
 
-					timer = 0;
-					waited = false;
+						gp.ui.titleScreen.waited = false;
+						gp.ui.titleScreen.timer = 0;
+						gp.gameState = gp.TITLE_STATE;
+
+						timer = 0;
+						waited = false;
+					}
 				}
+			} else if (homeButtonChecker) {
+				Button.buttonNum++;
+				homeButtonChecker = false;
 			}
 		}
 	}

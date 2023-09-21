@@ -27,7 +27,7 @@ public class UI {
 	public SoundSettingsScreen audioSettingsScreen;
 	public ControlsSettingsScreen controlsSettingsScreen;
 	public VideoSettingsScreen videoSettingsScreen;
-	public StatisticsSettingsScreen statsSettingsSreen;
+	public StatisticsSettingsScreen statsSettingsScreen;
 
 	public int commandNum = 0;
 
@@ -41,7 +41,7 @@ public class UI {
 		this.audioSettingsScreen = new SoundSettingsScreen(this.gp);
 		this.controlsSettingsScreen = new ControlsSettingsScreen(this.gp);
 		this.videoSettingsScreen = new VideoSettingsScreen(this.gp);
-		this.statsSettingsSreen = new StatisticsSettingsScreen(this.gp);
+		this.statsSettingsScreen = new StatisticsSettingsScreen(this.gp);
 
 		createFont();
 	}
@@ -61,6 +61,7 @@ public class UI {
 		}
 
 		if (gp.gameState == gp.PLAY_STATE && !gp.showOptionsMenu) {
+			gameScreen.mapM.update();
 			gameScreen.update();
 		}
 
@@ -82,9 +83,20 @@ public class UI {
 				videoSettingsScreen.update();
 			}
 			if (gp.settingsScreenState == gp.STATS_SETTINGS_STATE) {
-				statsSettingsSreen.update();
+				statsSettingsScreen.update();
 			}
 		}
+	}
+
+	public void preInit() {
+		titleScreen.update();
+		gameScreen.update();
+		gameOverScreen.update();
+		settingsScreen.update();
+		audioSettingsScreen.update();
+		controlsSettingsScreen.update();
+		videoSettingsScreen.update();
+		statsSettingsScreen.update();
 	}
 
 	public void render(Graphics2D g2) {
@@ -97,6 +109,7 @@ public class UI {
 		}
 
 		if (gp.gameState == gp.PLAY_STATE) {
+			gameScreen.mapM.render(g2);
 			gameScreen.render(g2);
 		}
 
@@ -118,7 +131,7 @@ public class UI {
 				videoSettingsScreen.render(g2);
 			}
 			if (gp.settingsScreenState == gp.STATS_SETTINGS_STATE) {
-				statsSettingsSreen.render(g2);
+				statsSettingsScreen.render(g2);
 			}
 		}
 	}

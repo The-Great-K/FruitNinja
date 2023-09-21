@@ -20,8 +20,16 @@ public class Button extends Entity {
 
 	private EntityEnum type;
 
+	public static int buttonNum;
+	public static int realButtonNum;
+
 	public String dimensions;
 	public String text;
+
+	public int timer = 0;
+	public boolean waited = false;
+
+	private boolean done = false;
 
 	public int textX, textY;
 
@@ -41,6 +49,9 @@ public class Button extends Entity {
 
 		setDefaultValues();
 		getButtonImage();
+
+		buttonNum++;
+		realButtonNum++;
 	}
 
 	public Button(GamePanel gp, int x, int y, int width, int height, String dimensions, String text) {

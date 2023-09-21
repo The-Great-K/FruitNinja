@@ -14,7 +14,7 @@ public class Main {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // HOW TO CLOSE
 		window.setResizable(true); // RESIZABLE?
 		window.setUndecorated(false); // WINDOW BUTTON OFF
-		window.setTitle("Fruit Ninja"); // WINDOW TITLE
+		window.setTitle("Union Wars - Tower Defense \"pre-alpha2\""); // WINDOW TITLE
 
 		window.pack(); // SETS THE WINDOW SIZE TO THE PANEL SIZE
 

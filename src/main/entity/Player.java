@@ -1,10 +1,10 @@
 package main.entity;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -22,11 +22,13 @@ public class Player extends Entity {
 
 	public Player(GamePanel gp) {
 		this.gp = gp;
-		gp.setCursor(gp.getToolkit().createCustomCursor(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB),
-				new Point(), null));
+
+		// gp.setCursor(gp.getToolkit().createCustomCursor(new BufferedImage(1, 1,
+		// BufferedImage.TYPE_INT_ARGB),
+		// new Point(), null));
 
 		setDefaultValues();
-		getPlayerImage();
+		// getPlayerImage();
 	}
 
 	public void setDefaultValues() {
@@ -54,21 +56,21 @@ public class Player extends Entity {
 			location.setLocation(0, 0);
 		}
 
-		this.x = mouse.x - location.x - gp.tileWidth / 6;
-		this.y = mouse.y - location.y - gp.tileHeight / 6;
-		this.width = gp.tileWidth / 3;
-		this.height = gp.tileHeight / 3;
+		this.x = mouse.x - location.x;
+		this.y = mouse.y - location.y;
+		this.width = 1;
+		this.height = 1;
 	}
 
 	public void render(Graphics2D g2) {
-		BufferedImage image = this.image;
+		// BufferedImage image = this.image;
 
 		this.hitbox = new Rectangle(x, y, width, height);
 
-		g2.drawImage(image, x, y, gp.tileWidth / 3, gp.tileHeight / 3, null);
+		// g2.drawImage(image, x, y, gp.tileWidth / 3, gp.tileHeight / 3, null);
 		if (this.hitboxOn) {
-//			g2.setColor(Color.red);
-//			g2.drawRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
+			g2.setColor(Color.red);
+			g2.drawRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
 		}
 	}
 
